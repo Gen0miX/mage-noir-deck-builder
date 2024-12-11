@@ -12,6 +12,7 @@ import { middleware } from './kernel.js'
 
 const AuthController = () => import('#controllers/auth_controller')
 const CardsController = () => import('#controllers/cards_controller')
+const DecksController = () => import('#controllers/decks_controller')
 
 router.get('/', async () => {
   return {
@@ -28,4 +29,11 @@ router.group(() => {
   router.get('/cards/filter', [CardsController, 'filter'])
   router.get('/cards/:id', [CardsController, 'show'])
   router.get('/cards', [CardsController, 'index'])
+})
+
+router.group(() => {
+  router.post('/decks/create', [DecksController, 'store'])
+  router.delete('/decks/:id', [DecksController, 'remove'])
+  router.get('/decks/:id', [DecksController, 'show'])
+  router.get('/decks', [DecksController, 'index'])
 })
