@@ -13,6 +13,7 @@ import { middleware } from './kernel.js'
 const AuthController = () => import('#controllers/auth_controller')
 const CardsController = () => import('#controllers/cards_controller')
 const DecksController = () => import('#controllers/decks_controller')
+const ComponentsController = () => import('#controllers/components_controller')
 
 router.get('/', async () => {
   return {
@@ -36,4 +37,9 @@ router.group(() => {
   router.delete('/decks/:id', [DecksController, 'remove'])
   router.get('/decks/:id', [DecksController, 'show'])
   router.get('/decks', [DecksController, 'index'])
+})
+
+router.group(() => {
+  router.get('/components/:id', [ComponentsController, 'show'])
+  router.get('/components', [ComponentsController, 'index'])
 })
