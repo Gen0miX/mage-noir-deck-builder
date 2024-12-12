@@ -17,6 +17,7 @@ const ComponentsController = () => import('#controllers/components_controller')
 const ElementsController = () => import('#controllers/elements_controller')
 const ExtensionsController = () => import('#controllers/extensions_controller')
 const IllustratorsController = () => import('#controllers/illustrators_controller')
+const TypesController = () => import('#controllers/types_controller')
 
 router.get('/', async () => {
   return {
@@ -60,4 +61,9 @@ router.group(() => {
 router.group(() => {
   router.get('/illustrators/:id', [IllustratorsController, 'show'])
   router.get('/illustrators', [IllustratorsController, 'index'])
+})
+
+router.group(() => {
+  router.get('/types/:id', [TypesController, 'show'])
+  router.get('/types', [TypesController, 'index'])
 })
