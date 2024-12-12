@@ -15,6 +15,7 @@ const CardsController = () => import('#controllers/cards_controller')
 const DecksController = () => import('#controllers/decks_controller')
 const ComponentsController = () => import('#controllers/components_controller')
 const ElementsController = () => import('#controllers/elements_controller')
+const ExtensionsController = () => import('#controllers/extensions_controller')
 
 router.get('/', async () => {
   return {
@@ -46,6 +47,11 @@ router.group(() => {
 })
 
 router.group(() => {
-  router.get('/components/:id', [ElementsController, 'show'])
-  router.get('/components', [ElementsController, 'index'])
+  router.get('/elements/:id', [ElementsController, 'show'])
+  router.get('/elements', [ElementsController, 'index'])
+})
+
+router.group(() => {
+  router.get('/extensions/:id', [ExtensionsController, 'show'])
+  router.get('/extensions', [ExtensionsController, 'index'])
 })
