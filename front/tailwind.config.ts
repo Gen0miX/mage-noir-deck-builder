@@ -14,5 +14,23 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: [
+      {
+        mage_noir: {
+          primary: "#ec6553",
+          secondary: "#39A2AE",
+          accent: "#FFDA22",
+          neutral: "#FFFFFF",
+          "base-100": "#171717",
+          info: "#0089a0",
+          success: "#0C8346",
+          warning: "#FCE762",
+          error: "#ff5b77",
+          "base-content": "#FBFCFA",
+        },
+      },
+    ],
+  },
 } satisfies Config;
