@@ -33,7 +33,9 @@ export default function RootLayout({
       >
         <div className="flex flex-col h-svh">
           <NavBar></NavBar>
-          <main className="flex-1 overflow-y-auto">{children}</main>
+          <main className="flex-1 overflow-y-auto relative z-0">
+            {children}
+          </main>
           <Footer></Footer>
         </div>
       </body>

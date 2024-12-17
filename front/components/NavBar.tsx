@@ -3,62 +3,74 @@ import { TiThMenu } from "react-icons/ti";
 
 export default function NavBar() {
   return (
-    <div className="navbar bg-base-100 border-b border-b-secondary border-opacity-40 min-h-14 font-p sticky top-0 z-50">
-      <a href="/" className="text-2xl font-medium mr-6 font-heading min-w-fit">
-        Les Arcanes du Mage
-      </a>
-      <div className="navbar-start">
-        <div className="gap-2 hidden md:flex">
-          <Link
-            href=""
-            className="btn btn-sm btn-ghost text-base-content text-lg font-light hover:bg-secondary "
+    <div className="drawer drawer-end z-50">
+      <input type="checkbox" id="my-drawer-3" className="drawer-toggle" />
+      <div className="drawer-content flex flex-col">
+        <div className="navbar bg-base-100 border-b border-b-secondary border-opacity-40 min-h-14 font-p sticky top-0">
+          <a
+            href="/"
+            className="text-2xl font-medium mr-6 font-heading min-w-fit"
           >
-            Deck Builder
-          </Link>
-          <Link
-            href="/cards"
-            className="btn btn-sm btn-ghost text-base-content text-lg font-light hover:bg-secondary"
-          >
-            Cartes
-          </Link>
-          <Link
-            href=""
-            className="btn btn-sm btn-ghost text-base-content text-lg font-light hover:bg-secondary"
-          >
-            Decks
-          </Link>
-        </div>
-      </div>
-      <div className="navbar-end">
-        <div className="dropdown dropdown-bottom dropdown-left md:hidden">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-sm btn-ghost hover:bg-secondary"
-          >
-            <TiThMenu />
-          </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rouded-box z[1] mt-3 w-52 p-2 shadow gap-1"
-          >
-            <li>
-              <Link href="" className="hover:bg-secondary">
+            Les Arcanes du Mage
+          </a>
+          <div className="navbar-start">
+            <div className="gap-2 hidden md:flex">
+              <Link
+                href=""
+                className="btn btn-sm btn-ghost text-base-content text-lg font-light hover:bg-secondary "
+              >
                 Deck Builder
               </Link>
-            </li>
-            <li>
-              <Link href="" className="hover:bg-secondary">
+              <Link
+                href="/cards"
+                className="btn btn-sm btn-ghost text-base-content text-lg font-light hover:bg-secondary"
+              >
                 Cartes
               </Link>
-            </li>
-            <li>
-              <Link href="" className="hover:bg-secondary">
+              <Link
+                href=""
+                className="btn btn-sm btn-ghost text-base-content text-lg font-light hover:bg-secondary"
+              >
                 Decks
               </Link>
-            </li>
-          </ul>
+            </div>
+          </div>
+          <div className="navbar-end">
+            <div className="md:hidden">
+              <label
+                htmlFor="my-drawer-3"
+                aria-label="open sidebar"
+                className="btn btn-square btn-sm btn-ghost hover:bg-secondary"
+              >
+                <TiThMenu />
+              </label>
+            </div>
+          </div>
         </div>
+      </div>
+      <div className="drawer-side font-p">
+        <label
+          htmlFor="my-drawer-3"
+          aria-label="close sidebar"
+          className="drawer-overlay"
+        ></label>
+        <ul className="menu bg-base-200 min-h-full w-80 p-4">
+          <li>
+            <Link href="" className="hover:bg-secondary">
+              Deck Builder
+            </Link>
+          </li>
+          <li>
+            <Link href="/cards" className="hover:bg-secondary">
+              Cartes
+            </Link>
+          </li>
+          <li>
+            <Link href="" className="hover:bg-secondary">
+              Decks
+            </Link>
+          </li>
+        </ul>
       </div>
     </div>
   );

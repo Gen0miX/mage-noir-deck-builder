@@ -1,6 +1,9 @@
+import Image from "next/image";
+import bg from "@/public/cape_galactique_wallpaper.png";
+
 export default function Home() {
   return (
-    <section className="flex flex-1 justify-center items-center bg-[url('/cape_galactique_wallpaper.png')] bg-cover bg-center font-p h-full">
+    <section className="flex flex-1 justify-center items-center font-p h-full">
       <div className="">
         <h1 className="text-3xl font-semibold text-center">
           Un site de deck building pour <br />
@@ -20,6 +23,18 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Image
+        alt="Background image"
+        src={bg}
+        placeholder="blur"
+        quality={100}
+        fill
+        sizes="100vw"
+        style={{
+          objectFit: "cover",
+          zIndex: -1,
+        }}
+      />
     </section>
   );
 }
