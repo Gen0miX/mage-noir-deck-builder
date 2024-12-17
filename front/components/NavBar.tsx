@@ -3,7 +3,7 @@ import { TiThMenu } from "react-icons/ti";
 
 export default function NavBar() {
   return (
-    <div className="navbar bg-base-100 border-b border-b-secondary border-opacity-40 min-h-14 font-p fixed">
+    <div className="navbar bg-base-100 border-b border-b-secondary border-opacity-40 min-h-14 font-p sticky top-0 z-50">
       <a href="/" className="text-2xl font-medium mr-6 font-heading min-w-fit">
         Les Arcanes du Mage
       </a>

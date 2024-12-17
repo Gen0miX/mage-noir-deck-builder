@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <section className="flex flex-1 justify-center items-center bg-[url('/cape_galactique_wallpaper.png')] bg-cover bg-center font-p">
+    <section className="flex flex-1 justify-center items-center bg-[url('/cape_galactique_wallpaper.png')] bg-cover bg-center font-p h-full">
       <div className="">
         <h1 className="text-3xl font-semibold text-center">
           Un site de deck building pour <br />
