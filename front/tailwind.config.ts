@@ -12,6 +12,10 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        p: ["var(--font-montserrat)"],
+        heading: ["var(--font-eb-garamond)"],
+      },
     },
   },
   plugins: [require("daisyui")],
