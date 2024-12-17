@@ -39,6 +39,8 @@ export default class CardsController {
         .preload('components', (query) => {
           query.pivotColumns(['quantity'])
         })
+        .orderBy('element_id', 'asc')
+        .orderBy('name', 'asc')
 
       return response.ok(this.serializeCards(cards))
     } catch (error) {
