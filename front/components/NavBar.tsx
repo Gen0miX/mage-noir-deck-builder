@@ -6,7 +6,7 @@ export default function NavBar() {
     <div className="drawer drawer-end z-50">
       <input type="checkbox" id="my-drawer-3" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
-        <div className="navbar bg-base-100 border-b border-b-secondary border-opacity-40 min-h-14 font-p sticky top-0">
+        <div className="navbar bg-base-200 border-b border-b-base-content border-opacity-40 min-h-14 font-p sticky top-0">
           <a
             href="/"
             className="text-2xl font-medium mr-6 font-heading min-w-fit"

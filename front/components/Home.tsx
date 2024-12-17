@@ -14,10 +14,10 @@ export default function Home() {
             Recherchez un deck ou créez le vôtre !
           </h2>
           <div className="flex justify-center gap-4">
-            <button className="btn btn-secondary w-24 text-base-content">
+            <button className="btn btn-secondary w-24 text-base-content text-lg">
               Chercher
             </button>
-            <button className="btn btn-secondary w-24 text-base-content">
+            <button className="btn btn-primary w-24 text-base-content text-lg">
               Créer
             </button>
           </div>
