@@ -69,7 +69,7 @@ export default function Filter() {
               width={250}
               height={250}
               quality={100}
-              className="w-[30] lg:w-10"
+              className="w-[30px] lg:w-10"
               alt="Icône élément végétal"
             ></Image>
           </button>
@@ -78,7 +78,7 @@ export default function Filter() {
               src={FireIcon}
               width={250}
               height={250}
-              className="w-[30] lg:w-10"
+              className="w-[30px] lg:w-10"
               alt="Icône élément feu"
             ></Image>
           </button>
@@ -87,7 +87,7 @@ export default function Filter() {
               src={AirIcon}
               width={250}
               height={250}
-              className="w-[30] lg:w-10"
+              className="w-[30px] lg:w-10"
               alt="Icône élément air"
             ></Image>
           </button>
@@ -96,7 +96,7 @@ export default function Filter() {
               src={WaterIcon}
               width={250}
               height={250}
-              className="w-[30] lg:w-10"
+              className="w-[30px] lg:w-10"
               alt="Icône élément eau"
             ></Image>
           </button>
@@ -105,7 +105,7 @@ export default function Filter() {
               src={MineralIcon}
               width={250}
               height={250}
-              className="w-[30] lg:w-10"
+              className="w-[30px] lg:w-10"
               alt="Icône élément minéral"
             ></Image>
           </button>
@@ -114,7 +114,7 @@ export default function Filter() {
               src={ArcaneIcon}
               width={250}
               height={250}
-              className="w-[30] lg:w-10"
+              className="w-[30px] lg:w-10"
               alt="Icône élément arcane"
             ></Image>
           </button>
