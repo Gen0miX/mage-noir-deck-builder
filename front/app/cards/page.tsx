@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { fetchCards } from "@/api/cardsApi";
+import { useCards } from "@/context/CardsContext";
 import Image from "next/image";
 import Filter from "@/components/Filters";
 import Link from "next/link";
@@ -25,24 +25,7 @@ const getShadowClass = (elementName: string) => {
 };
 
 const CardsPage: React.FC = () => {
-  const [cards, setCards] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadCards = async () => {
-      try {
-        const data = await fetchCards();
-        console.log(data);
-        setCards(data);
-      } catch (error) {
-        console.error("Error fetching cards:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadCards();
-  }, []);
+  const { cards, loading } = useCards();
 
   if (loading) return <p>Loading...</p>;
 
@@ -62,7 +45,6 @@ const CardsPage: React.FC = () => {
                 alt={card.name}
                 width={372}
                 height={520}
-                placeholder="blur"
                 quality={100}
                 layout="responsive" // S'assure que l'image garde son ratio
                 className={`object-cover rounded-lg ${getShadowClass(
