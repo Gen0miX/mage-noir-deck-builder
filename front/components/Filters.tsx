@@ -3,12 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";
 import { LuSlidersHorizontal, LuSearch } from "react-icons/lu";
-import VegetalIcon from "@/public/elements/vegetal_icon_round.png";
-import FireIcon from "@/public/elements/fire_icon_round.png";
-import AirIcon from "@/public/elements/air_icon_round.png";
-import WaterIcon from "@/public/elements/water_icon_round.png";
-import MineralIcon from "@/public/elements/mineral_icon_round.png";
-import ArcaneIcon from "@/public/elements/arcane_icon_round.png";
+import ElementIcon from "./ElementIcon";
 
 export default function Filter() {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,59 +59,22 @@ export default function Filter() {
         </div>
         <div className="jusify-end">
           <button className="btn p-1">
-            <Image
-              src={VegetalIcon}
-              width={250}
-              height={250}
-              quality={100}
-              className="w-[30px] lg:w-10"
-              alt="Icône élément végétal"
-            ></Image>
+            <ElementIcon id={1} className="w-[30px] lg:w-10"></ElementIcon>
           </button>
           <button className="btn p-1">
-            <Image
-              src={FireIcon}
-              width={250}
-              height={250}
-              className="w-[30px] lg:w-10"
-              alt="Icône élément feu"
-            ></Image>
+            <ElementIcon id={2} className="w-[30px] lg:w-10"></ElementIcon>
           </button>
           <button className="btn p-1">
-            <Image
-              src={AirIcon}
-              width={250}
-              height={250}
-              className="w-[30px] lg:w-10"
-              alt="Icône élément air"
-            ></Image>
+            <ElementIcon id={3} className="w-[30px] lg:w-10"></ElementIcon>
           </button>
           <button className="btn p-1">
-            <Image
-              src={WaterIcon}
-              width={250}
-              height={250}
-              className="w-[30px] lg:w-10"
-              alt="Icône élément eau"
-            ></Image>
+            <ElementIcon id={4} className="w-[30px] lg:w-10"></ElementIcon>
           </button>
           <button className="btn p-1">
-            <Image
-              src={MineralIcon}
-              width={250}
-              height={250}
-              className="w-[30px] lg:w-10"
-              alt="Icône élément minéral"
-            ></Image>
+            <ElementIcon id={5} className="w-[30px] lg:w-10"></ElementIcon>
           </button>
           <button className="btn p-1">
-            <Image
-              src={ArcaneIcon}
-              width={250}
-              height={250}
-              className="w-[30px] lg:w-10"
-              alt="Icône élément arcane"
-            ></Image>
+            <ElementIcon id={6} className="w-[30px] lg:w-10"></ElementIcon>
           </button>
         </div>
       </div>
