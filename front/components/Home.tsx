@@ -1,5 +1,6 @@
 import Image from "next/image";
 import bg from "@/public/cape_galactique_wallpaper.png";
+import Loading from "./Loading";
 
 export default function Home() {
   return (

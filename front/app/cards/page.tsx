@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useCards } from "@/context/CardsContext";
 import Image from "next/image";
 import Filter from "@/components/Filters";
+import Loading from "@/components/Loading";
 import Link from "next/link";
 
 const getShadowClass = (elementName: string) => {
@@ -27,7 +28,7 @@ const getShadowClass = (elementName: string) => {
 const CardsPage: React.FC = () => {
   const { cards, loading } = useCards();
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
 
   return (
     <div className="flex flex-col h-full">

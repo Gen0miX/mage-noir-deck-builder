@@ -6,6 +6,7 @@ import { Card } from "@/context/types/Card";
 import Image from "next/image";
 import { FaTimes } from "react-icons/fa";
 import ElementIcon from "@/components/ElementIcon";
+import Loading from "@/components/Loading";
 
 const CardPage: React.FC = () => {
   const { id } = useParams();
@@ -17,8 +18,6 @@ const CardPage: React.FC = () => {
   useEffect(() => {
     if (!id) return;
 
-    console.log("yo");
-
     const loadCard = async () => {
       setLoading(true);
       const cardData = await getCardById(Number(id));
@@ -29,7 +28,7 @@ const CardPage: React.FC = () => {
     loadCard();
   }, [id, getCardById]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   if (!card) return <p>Card not found</p>;
 
   console.log(card);
@@ -55,9 +54,19 @@ const CardPage: React.FC = () => {
           />
         </div>
         <div className="flex flex-col w-full">
-          <h1 className="text-2xl font-bold mt-4 font-heading text-center mb-4">
-            {card.name}
-          </h1>
+          <div className="flex flex-col gap-2 sm:gap-0 sm:flex-row justify-between mb-5">
+            <h1 className="text-2xl font-bold mt-4 font-heading text-center">
+              {card.name}
+            </h1>
+            <p className="flex items-center self-center gap-2 p-2 text-xl font-heading border border-base-content border-opacity-40 bg-base-300 rounded-lg uppercase">
+              <strong>Élément : </strong>
+              <ElementIcon
+                id={card.element.id}
+                className="w-9 h-9"
+              ></ElementIcon>
+            </p>
+          </div>
+
           <p className="text-lg font-light mt-2 text-justify">
             {card.description
               //A CHANGER AU SCRAPING POUR MEILLEURE RESULTAT !!!!
@@ -78,18 +87,15 @@ const CardPage: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row justify-between ">
             <div className="flex flex-col gap-5 mb-5">
-              <p className="flex text-sm items-center gap-2">
-                <strong>Élément : </strong>
-                <ElementIcon
-                  id={card.element.id}
-                  className="w-6 h-6"
-                ></ElementIcon>
+              <p className="text-sm">
+                <strong>Point de vie : </strong> {card.hp}
               </p>
+
               <p className="text-sm">
                 <strong>Extension : </strong> {card.extension.name}
               </p>
-              <div className="flex flex-col sm:h-[120px]">
-                <h2 className="text-xl font-bold font-heading mb-2">
+              <div className="flex-col hidden sm:flex order-5 p-2 bg-base-300 border border-base-content border-opacity-40 rounded-lg">
+                <h2 className="text-xl font-bold font-heading mb-2 uppercase">
                   Coût en Mana
                 </h2>
                 <ul className="">
@@ -114,23 +120,38 @@ const CardPage: React.FC = () => {
               <p className="text-sm">
                 <strong>Illustrateur : </strong> {card.illustrator.name}
               </p>
-              <div className="flex flex-col sm:h-[120px]">
-                <h2 className="text-xl font-bold font-heading mb-2">
+              <div className="flex flex-col sm:hidden p-2 bg-base-300 border border-base-content border-opacity-40 rounded-lg">
+                <h2 className="text-xl font-bold font-heading mb-2 uppercase">
+                  Coût en Mana
+                </h2>
+                <ul className="">
+                  {card.mana_cost.map((mana) => (
+                    <li key={mana.id} className="flex gap-2 mb-1">
+                      {Array.from({ length: mana.quantity }).map((_, index) => (
+                        <ElementIcon
+                          key={`${mana.id}-${index}`}
+                          id={mana.id}
+                          className="w-6"
+                        />
+                      ))}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="flex flex-col p-2 bg-base-300 border border-base-content border-opacity-40 rounded-lg">
+                <h2 className="text-xl font-bold font-heading mb-2 uppercase">
                   Composants
                 </h2>
                 <ul>
                   {card.components.map((component) => (
                     <li key={component.id} className="mb-1">
-                      {component.quantity}x {component.name}
+                      {component.name} x{component.quantity}
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
           </div>
-          <p className="text-sm sm:self-center">
-            <strong>Point de vie : </strong> {card.hp}
-          </p>
         </div>
       </div>
     </section>
