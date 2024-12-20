@@ -1,16 +1,26 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";
 import { LuSlidersHorizontal, LuSearch } from "react-icons/lu";
 import ElementIcon from "./ElementIcon";
+import { useCards } from "@/context/CardsContext";
 
 export default function Filter() {
+  const { activeFilters, toggleFilter, elements } = useCards();
+  const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value.toLowerCase());
+  };
+
+  const filteredElements = elements.filter((element) =>
+    element.name.toLowerCase().includes(searchQuery)
+  );
 
   return (
     <div className="sticky top-0 flex flex-col w-full p-3 z-50 bg-base-200 border-b border-b-base-content border-opacity-40 gap-2">
@@ -58,24 +68,19 @@ export default function Filter() {
           )}
         </div>
         <div className="jusify-end">
-          <button className="btn p-1">
-            <ElementIcon id={1} className="w-[30px] lg:w-10"></ElementIcon>
-          </button>
-          <button className="btn p-1">
-            <ElementIcon id={2} className="w-[30px] lg:w-10"></ElementIcon>
-          </button>
-          <button className="btn p-1">
-            <ElementIcon id={3} className="w-[30px] lg:w-10"></ElementIcon>
-          </button>
-          <button className="btn p-1">
-            <ElementIcon id={4} className="w-[30px] lg:w-10"></ElementIcon>
-          </button>
-          <button className="btn p-1">
-            <ElementIcon id={5} className="w-[30px] lg:w-10"></ElementIcon>
-          </button>
-          <button className="btn p-1">
-            <ElementIcon id={6} className="w-[30px] lg:w-10"></ElementIcon>
-          </button>
+          {filteredElements.map((element) => (
+            <button
+              key={element.id}
+              className={`btn p-1 ${
+                activeFilters.includes(element.name)
+                  ? "btn-primary"
+                  : "btn-ghost"
+              }`}
+              onClick={() => toggleFilter(element.name)}
+            >
+              <ElementIcon id={element.id} className="w-[30px] lg:w-10" />
+            </button>
+          ))}
         </div>
       </div>
     </div>

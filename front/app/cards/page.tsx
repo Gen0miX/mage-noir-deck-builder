@@ -26,16 +26,20 @@ const getShadowClass = (elementName: string) => {
 };
 
 const CardsPage: React.FC = () => {
-  const { cards, loading } = useCards();
+  const { cards, loading, activeFilters } = useCards();
 
   if (loading) return <Loading />;
+
+  const filteredCards = activeFilters.length
+    ? cards.filter((card) => activeFilters.includes(card.element.name))
+    : cards;
 
   return (
     <div className="flex flex-col h-full">
       <Filter></Filter>
       <div className="flex-1 overflow-y-auto">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 px-2 sm:gap-4 pt-5 pb-5 sm:px-5 z-0 overflow-y-auto">
-          {cards.map((card) => (
+          {filteredCards.map((card) => (
             <Link
               href={`/cards/${card.id}`}
               key={card.id}
