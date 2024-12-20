@@ -3,6 +3,7 @@ import { useState } from "react";
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";
 import { LuSlidersHorizontal, LuSearch } from "react-icons/lu";
 import ElementIcon from "./ElementIcon";
+import FilterModal from "./FilterModal";
 import { useCards } from "@/context/CardsContext";
 
 export default function Filter() {
@@ -29,7 +30,17 @@ export default function Filter() {
           <input type="text" className="grow" placeholder="Rechercher..." />
           <LuSearch />
         </label>
-        <button className="btn btn-sm btn-primary lg:btn-md text-base-content font-medium">
+        <button
+          className="btn btn-sm btn-primary lg:btn-md text-base-content font-medium"
+          onClick={() => {
+            const modal = document.getElementById(
+              "filter_modal"
+            ) as HTMLDialogElement | null;
+            if (modal) {
+              modal.showModal();
+            }
+          }}
+        >
           <LuSlidersHorizontal size={18} />
           Filtres
         </button>
@@ -83,6 +94,7 @@ export default function Filter() {
           ))}
         </div>
       </div>
+      <FilterModal id="filter_modal"></FilterModal>
     </div>
   );
 }

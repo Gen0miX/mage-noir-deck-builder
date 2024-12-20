@@ -7,12 +7,12 @@ export default function NavBar() {
       <input type="checkbox" id="my-drawer-3" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
         <div className="navbar bg-base-200 border-b border-b-base-content border-opacity-40 min-h-14 font-p sticky top-0">
-          <a
+          <Link
             href="/"
             className="text-2xl font-medium mr-6 font-heading min-w-fit"
           >
             Les Arcanes du Mage
-          </a>
+          </Link>
           <div className="navbar-start">
             <div className="gap-2 hidden md:flex">
               <Link

@@ -15,7 +15,7 @@ export interface CardsContextType {
   fetchAllCards: () => Promise<void>;
   getCardById: (id: number) => Promise<Card | undefined>;
   activeFilters: string[];
-  toggleFilter: (filter: string) => void;
+  toggleFilter: (filter: string | { elementId: number; value: number }) => void;
   components: Component[];
   elements: Element[];
   types: Type[];
@@ -53,12 +53,35 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const toggleFilter = (filter: string) => {
-    setActiveFilters((prevFilters) =>
-      prevFilters.includes(filter)
-        ? prevFilters.filter((f) => f !== filter)
-        : [...prevFilters, filter]
-    );
+  const toggleFilter = (
+    filter: string | { elementId: number; value: number }
+  ) => {
+    setActiveFilters((prevFilters) => {
+      let newFilters = [...prevFilters];
+
+      // Cas 1 : Gestion d'un slider
+      if (typeof filter === "object") {
+        const filterKey = `mana:${filter.elementId}`;
+        // Supprime l'ancien filtre pour cet élément, s'il existe
+        newFilters = newFilters.filter((f) => !f.startsWith(filterKey));
+        // Ajoute le filtre seulement si la valeur > 0
+        if (filter.value > 0) {
+          newFilters.push(`${filterKey}=${filter.value}`);
+        }
+      }
+      // Cas 2 : Gestion d'un filtre classique (chaîne)
+      else {
+        if (newFilters.includes(filter)) {
+          // Supprime le filtre s'il est déjà actif
+          newFilters = newFilters.filter((f) => f !== filter);
+        } else {
+          // Ajoute le filtre sinon
+          newFilters.push(filter);
+        }
+      }
+
+      return newFilters;
+    });
   };
 
   // Fonction pour charger toutes les cartes

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { useCards } from "@/context/CardsContext";
 import Image from "next/image";
 import Filter from "@/components/Filters";
@@ -31,7 +31,36 @@ const CardsPage: React.FC = () => {
   if (loading) return <Loading />;
 
   const filteredCards = activeFilters.length
-    ? cards.filter((card) => activeFilters.includes(card.element.name))
+    ? cards.filter((card) => {
+        // Filtres classiques
+        const matchesOtherFilters = activeFilters.some((filter) =>
+          filter.startsWith("mana:")
+            ? false // On ignore les sliders ici
+            : activeFilters.includes(card.element.name) ||
+              activeFilters.includes(card.type.name) ||
+              card.components.some((component) =>
+                activeFilters.includes(component.name)
+              ) ||
+              activeFilters.includes(card.extension.name)
+        );
+
+        // Filtres basés sur les sliders
+        const matchesManaCostSliders = activeFilters
+          .filter((filter) => filter.startsWith("mana:"))
+          .every((sliderFilter) => {
+            const [key, value] = sliderFilter.split("=");
+            const elementId = parseInt(key.split(":")[1], 10); // Extrait elementId
+            const sliderValue = parseInt(value, 10); // Extrait la valeur
+
+            // Vérifie si la carte a un mana_cost correspondant
+            return card.mana_cost.some(
+              (mana) => mana.id === elementId && mana.quantity >= sliderValue
+            );
+          });
+
+        // La carte doit correspondre à au moins un des deux groupes de filtres
+        return matchesOtherFilters || matchesManaCostSliders;
+      })
     : cards;
 
   return (

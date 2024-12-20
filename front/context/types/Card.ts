@@ -9,6 +9,11 @@ export interface ComponentCard {
   quantity: number;
 }
 
+export interface ManaCostSlider {
+  elementId: number;
+  value: number;
+}
+
 export interface ManaCost {
   id: number;
   name: string;
