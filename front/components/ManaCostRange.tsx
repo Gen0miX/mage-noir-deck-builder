@@ -7,13 +7,13 @@ interface ManaCostRangeProps {
 }
 
 export default function ManaCostRange({ elementId }: ManaCostRangeProps) {
-  const { toggleFilter } = useCards();
+  const { updateManaCostSlider } = useCards();
   const [value, setValue] = useState(0); // État pour la valeur
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
     setValue(newValue);
-    toggleFilter({ elementId, value: newValue });
+    updateManaCostSlider(elementId, newValue);
   };
 
   return (

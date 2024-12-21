@@ -7,6 +7,7 @@ import {
   Element,
   Type,
   Extension,
+  ManaCostSlider,
 } from "@/context/types/Card";
 
 export interface CardsContextType {
@@ -15,12 +16,14 @@ export interface CardsContextType {
   fetchAllCards: () => Promise<void>;
   getCardById: (id: number) => Promise<Card | undefined>;
   activeFilters: string[];
-  toggleFilter: (filter: string | { elementId: number; value: number }) => void;
+  toggleFilter: (filter: string) => void;
   components: Component[];
   elements: Element[];
   types: Type[];
   extensions: Extension[];
   fetchFilters: () => Promise<void>;
+  manaCostSliders: ManaCostSlider[];
+  updateManaCostSlider: (elementId: number, value: number) => void;
 }
 
 const CardsContext = createContext<CardsContextType | undefined>(undefined);
@@ -33,6 +36,7 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [elements, setElements] = useState<Element[]>([]);
   const [types, setTypes] = useState<Type[]>([]);
   const [extensions, setExtensions] = useState<Extension[]>([]);
+  const [manaCostSliders, setManaCostSliders] = useState<ManaCostSlider[]>([]);
 
   const [loading, setLoading] = useState(true);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
@@ -53,34 +57,23 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const toggleFilter = (
-    filter: string | { elementId: number; value: number }
-  ) => {
-    setActiveFilters((prevFilters) => {
-      let newFilters = [...prevFilters];
+  const toggleFilter = (filter: string) => {
+    setActiveFilters((prevFilters) =>
+      prevFilters.includes(filter)
+        ? prevFilters.filter((f) => f !== filter)
+        : [...prevFilters, filter]
+    );
+  };
 
-      // Cas 1 : Gestion d'un slider
-      if (typeof filter === "object") {
-        const filterKey = `mana:${filter.elementId}`;
-        // Supprime l'ancien filtre pour cet élément, s'il existe
-        newFilters = newFilters.filter((f) => !f.startsWith(filterKey));
-        // Ajoute le filtre seulement si la valeur > 0
-        if (filter.value > 0) {
-          newFilters.push(`${filterKey}=${filter.value}`);
-        }
+  const updateManaCostSlider = (elementId: number, value: number) => {
+    setManaCostSliders((prevSliders) => {
+      const updatedSliders = prevSliders.filter(
+        (slider) => slider.elementId !== elementId
+      );
+      if (value > 0) {
+        updatedSliders.push({ elementId, value });
       }
-      // Cas 2 : Gestion d'un filtre classique (chaîne)
-      else {
-        if (newFilters.includes(filter)) {
-          // Supprime le filtre s'il est déjà actif
-          newFilters = newFilters.filter((f) => f !== filter);
-        } else {
-          // Ajoute le filtre sinon
-          newFilters.push(filter);
-        }
-      }
-
-      return newFilters;
+      return updatedSliders;
     });
   };
 
@@ -136,6 +129,8 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
         types,
         extensions,
         fetchFilters,
+        manaCostSliders,
+        updateManaCostSlider,
       }}
     >
       {children}

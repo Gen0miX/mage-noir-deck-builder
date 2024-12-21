@@ -26,42 +26,50 @@ const getShadowClass = (elementName: string) => {
 };
 
 const CardsPage: React.FC = () => {
-  const { cards, loading, activeFilters } = useCards();
+  const { cards, loading, activeFilters, manaCostSliders } = useCards();
 
   if (loading) return <Loading />;
 
-  const filteredCards = activeFilters.length
-    ? cards.filter((card) => {
-        // Filtres classiques
-        const matchesOtherFilters = activeFilters.some((filter) =>
-          filter.startsWith("mana:")
-            ? false // On ignore les sliders ici
-            : activeFilters.includes(card.element.name) ||
-              activeFilters.includes(card.type.name) ||
-              card.components.some((component) =>
-                activeFilters.includes(component.name)
-              ) ||
-              activeFilters.includes(card.extension.name)
-        );
+  console.log("ActiveFilters : " + { activeFilters });
+  console.log("manaCostSliders : " + { manaCostSliders });
 
-        // Filtres basés sur les sliders
-        const matchesManaCostSliders = activeFilters
-          .filter((filter) => filter.startsWith("mana:"))
-          .every((sliderFilter) => {
-            const [key, value] = sliderFilter.split("=");
-            const elementId = parseInt(key.split(":")[1], 10); // Extrait elementId
-            const sliderValue = parseInt(value, 10); // Extrait la valeur
+  const filteredCards = (() => {
+    const cardsByOtherFilters = activeFilters.length
+      ? cards.filter((card) => {
+          return (
+            activeFilters.includes(card.element.name) ||
+            activeFilters.includes(card.type.name) ||
+            card.components.some((component) =>
+              activeFilters.includes(component.name)
+            ) ||
+            activeFilters.includes(card.extension.name)
+          );
+        })
+      : [];
 
-            // Vérifie si la carte a un mana_cost correspondant
-            return card.mana_cost.some(
-              (mana) => mana.id === elementId && mana.quantity >= sliderValue
-            );
-          });
+    const cardsByManaCostSliders = manaCostSliders.length
+      ? cards.filter((card) =>
+          manaCostSliders.every((slider) =>
+            card.mana_cost.some(
+              (mana) =>
+                mana.id === slider.elementId && mana.quantity >= slider.value
+            )
+          )
+        )
+      : [];
 
-        // La carte doit correspondre à au moins un des deux groupes de filtres
-        return matchesOtherFilters || matchesManaCostSliders;
-      })
-    : cards;
+    // Combine les cartes des deux listes en supprimant les doublons
+    const combinedCards = [
+      ...new Set([...cardsByOtherFilters, ...cardsByManaCostSliders]),
+    ];
+
+    // Si aucun filtre n'est actif, retourne toutes les cartes
+    if (!activeFilters.length && !manaCostSliders.length) {
+      return cards;
+    }
+
+    return combinedCards;
+  })();
 
   return (
     <div className="flex flex-col h-full">
