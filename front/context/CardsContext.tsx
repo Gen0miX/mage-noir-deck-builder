@@ -24,6 +24,11 @@ export interface CardsContextType {
   fetchFilters: () => Promise<void>;
   manaCostSliders: ManaCostSlider[];
   updateManaCostSlider: (elementId: number, value: number) => void;
+  hpSlider: number;
+  updateHpSlider: (value: number) => void;
+  resetFilters: () => void;
+  sortCriteria: { field: string; order: "asc" | "desc" };
+  updateSortCriteria: (field: string) => void;
 }
 
 const CardsContext = createContext<CardsContextType | undefined>(undefined);
@@ -37,6 +42,12 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [types, setTypes] = useState<Type[]>([]);
   const [extensions, setExtensions] = useState<Extension[]>([]);
   const [manaCostSliders, setManaCostSliders] = useState<ManaCostSlider[]>([]);
+  const [hpSlider, setHpSlider] = useState<number>(0);
+
+  const [sortCriteria, setSortCriteria] = useState<{
+    field: string;
+    order: "asc" | "desc";
+  }>({ field: "", order: "asc" });
 
   const [loading, setLoading] = useState(true);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
@@ -75,6 +86,23 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
       }
       return updatedSliders;
     });
+  };
+
+  const updateHpSlider = (value: number) => {
+    setHpSlider(value);
+  };
+
+  const resetFilters = () => {
+    setActiveFilters([]);
+    setManaCostSliders([]);
+    setHpSlider(0);
+  };
+
+  const updateSortCriteria = (field: string) => {
+    setSortCriteria((prev) => ({
+      field,
+      order: prev.field === field && prev.order === "asc" ? "desc" : "asc",
+    }));
   };
 
   // Fonction pour charger toutes les cartes
@@ -131,6 +159,11 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
         fetchFilters,
         manaCostSliders,
         updateManaCostSlider,
+        hpSlider,
+        updateHpSlider,
+        resetFilters,
+        sortCriteria,
+        updateSortCriteria,
       }}
     >
       {children}

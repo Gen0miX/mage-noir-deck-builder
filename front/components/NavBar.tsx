@@ -1,10 +1,29 @@
+"use client";
+
+import { useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { TiThMenu } from "react-icons/ti";
+import { FaTimes } from "react-icons/fa";
 
 export default function NavBar() {
+  const pathname = usePathname();
+  const drawerCheckboxRef = useRef<HTMLInputElement>(null);
+
+  const closeDrawer = () => {
+    if (drawerCheckboxRef.current) {
+      drawerCheckboxRef.current.checked = false;
+    }
+  };
+
   return (
     <div className="drawer drawer-end z-50">
-      <input type="checkbox" id="my-drawer-3" className="drawer-toggle" />
+      <input
+        type="checkbox"
+        id="my-drawer-3"
+        className="drawer-toggle"
+        ref={drawerCheckboxRef}
+      />
       <div className="drawer-content flex flex-col">
         <div className="navbar bg-base-200 border-b border-b-base-content border-opacity-40 min-h-14 font-p sticky top-0">
           <Link
@@ -17,13 +36,15 @@ export default function NavBar() {
             <div className="gap-2 hidden md:flex">
               <Link
                 href=""
-                className="btn btn-sm btn-ghost text-base-content text-lg font-light hover:bg-secondary "
+                className="btn btn-sm btn-ghost text-base-content text-lg font-light hover:bg-secondary"
               >
                 Deck Builder
               </Link>
               <Link
                 href="/cards"
-                className="btn btn-sm btn-ghost text-base-content text-lg font-light hover:bg-secondary"
+                className={`btn btn-sm text-base-content text-lg font-light hover:bg-secondary ${
+                  pathname === "/cards" ? "btn-secondary" : "btn-ghost"
+                } `}
               >
                 Cartes
               </Link>
@@ -54,23 +75,37 @@ export default function NavBar() {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-base-200 min-h-full w-80 p-4">
-          <li>
-            <Link href="" className="hover:bg-secondary">
-              Deck Builder
-            </Link>
-          </li>
-          <li>
-            <Link href="/cards" className="hover:bg-secondary">
-              Cartes
-            </Link>
-          </li>
-          <li>
-            <Link href="" className="hover:bg-secondary">
-              Decks
-            </Link>
-          </li>
-        </ul>
+
+        <div className="flex h-full bg-base-200 w-80 border-l border-base-content border-opacity-40">
+          <button
+            className="btn btn-sm btn-circle btn-primary absolute right-4 top-4"
+            onClick={closeDrawer}
+          >
+            <FaTimes />
+          </button>
+          <ul className="menu min-h-full w-60 p-4">
+            <li>
+              <Link href="" className="hover:bg-secondary">
+                Deck Builder
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/cards"
+                className={`hover:bg-secondary ${
+                  pathname === "/cards" ? "bg-secondary" : "bg-transparent"
+                }`}
+              >
+                Cartes
+              </Link>
+            </li>
+            <li>
+              <Link href="" className="hover:bg-secondary">
+                Decks
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

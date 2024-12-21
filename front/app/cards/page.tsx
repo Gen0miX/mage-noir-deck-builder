@@ -26,49 +26,84 @@ const getShadowClass = (elementName: string) => {
 };
 
 const CardsPage: React.FC = () => {
-  const { cards, loading, activeFilters, manaCostSliders } = useCards();
+  const {
+    cards,
+    loading,
+    activeFilters,
+    manaCostSliders,
+    hpSlider,
+    sortCriteria,
+  } = useCards();
 
   if (loading) return <Loading />;
 
-  console.log("ActiveFilters : " + { activeFilters });
-  console.log("manaCostSliders : " + { manaCostSliders });
-
   const filteredCards = (() => {
-    const cardsByOtherFilters = activeFilters.length
-      ? cards.filter((card) => {
-          return (
-            activeFilters.includes(card.element.name) ||
-            activeFilters.includes(card.type.name) ||
-            card.components.some((component) =>
-              activeFilters.includes(component.name)
-            ) ||
-            activeFilters.includes(card.extension.name)
-          );
-        })
-      : [];
+    // Start with all cards as the base
+    let filtered = cards;
 
-    const cardsByManaCostSliders = manaCostSliders.length
-      ? cards.filter((card) =>
-          manaCostSliders.every((slider) =>
-            card.mana_cost.some(
-              (mana) =>
-                mana.id === slider.elementId && mana.quantity >= slider.value
-            )
-          )
+    // Step 1: Organize active filters by type
+    const filterGroups = {
+      element: activeFilters.filter((filter) =>
+        cards.some((card) => card.element.name === filter)
+      ),
+      type: activeFilters.filter((filter) =>
+        cards.some((card) => card.type.name === filter)
+      ),
+      extension: activeFilters.filter((filter) =>
+        cards.some((card) => card.extension.name === filter)
+      ),
+      component: activeFilters.filter((filter) =>
+        cards.some((card) =>
+          card.components.some((component) => component.name === filter)
         )
-      : [];
+      ),
+    };
 
-    // Combine les cartes des deux listes en supprimant les doublons
-    const combinedCards = [
-      ...new Set([...cardsByOtherFilters, ...cardsByManaCostSliders]),
-    ];
+    // Step 2: Apply each group of filters
+    Object.entries(filterGroups).forEach(([filterType, filters]) => {
+      if (filters.length) {
+        filtered = filtered.filter((card) => {
+          // Check if the card matches any filter in this group
+          switch (filterType) {
+            case "element":
+              return filters.includes(card.element.name);
+            case "type":
+              return filters.includes(card.type.name);
+            case "extension":
+              return filters.includes(card.extension.name);
+            case "component":
+              return card.components.some((component) =>
+                filters.includes(component.name)
+              );
+            default:
+              return true; // No filter applied if no match
+          }
+        });
+      }
+    });
 
-    // Si aucun filtre n'est actif, retourne toutes les cartes
-    if (!activeFilters.length && !manaCostSliders.length) {
-      return cards;
+    // Step 3: Apply mana cost sliders sequentially
+    if (manaCostSliders.length) {
+      manaCostSliders.forEach((slider) => {
+        filtered = filtered.filter((card) => {
+          // Check if the card matches the slider conditions
+          return card.mana_cost.some(
+            (mana) =>
+              mana.id === slider.elementId && mana.quantity >= slider.value
+          );
+        });
+      });
     }
 
-    return combinedCards;
+    if (hpSlider > 0) {
+      filtered = filtered.filter((card) => card.hp >= hpSlider);
+    }
+
+    // Step 4: Return the filtered cards
+    // If no filters or sliders are active, return all cards
+    return activeFilters.length || manaCostSliders.length || hpSlider > 0
+      ? filtered
+      : cards;
   })();
 
   return (
