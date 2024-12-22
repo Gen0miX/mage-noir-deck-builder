@@ -1,13 +1,24 @@
 "use client";
 import { useState } from "react";
-import { MdOutlineKeyboardArrowUp } from "react-icons/md";
+import {
+  MdOutlineKeyboardArrowUp,
+  MdOutlineKeyboardArrowDown,
+} from "react-icons/md";
 import { LuSlidersHorizontal, LuSearch } from "react-icons/lu";
 import ElementIcon from "./ElementIcon";
 import FilterModal from "./FilterModal";
 import { useCards } from "@/context/CardsContext";
 
 export default function Filter() {
-  const { activeFilters, toggleFilter, elements } = useCards();
+  const {
+    activeFilters,
+    toggleFilter,
+    elements,
+    setSortBy,
+    sortBy,
+    sortOrders,
+    toggleSortOrder,
+  } = useCards();
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -22,6 +33,18 @@ export default function Filter() {
   const filteredElements = elements.filter((element) =>
     element.name.toLowerCase().includes(searchQuery)
   );
+
+  const handleSort = (
+    key: "name" | "element" | "type" | "hp" | "extension"
+  ) => {
+    if (sortBy === key) {
+      // Si l'utilisateur reclique sur le même critère, bascule l'ordre
+      toggleSortOrder(key);
+    } else {
+      // Change le critère et initialise son tri en ascendant
+      setSortBy(key);
+    }
+  };
 
   return (
     <div className="sticky top-0 flex flex-col w-full p-3 z-50 bg-base-200 border-b border-b-base-content border-opacity-40 gap-2">
@@ -62,18 +85,91 @@ export default function Filter() {
           </button>
           {/* Contenu du dropdown */}
           {isOpen && (
-            <ul className="menu menu-sm absolute left-0 mt-2 w-40 bg-base-200 rounded-box shadow-lg z-10 border border-base-content border-opacity-40">
-              <li>
-                <button className="btn btn-sm">Élément</button>
+            <ul className="menu menu-sm absolute left-0 mt-2 w-40 bg-base-200 shadow-lg z-10 border border-base-content border-opacity-40">
+              <li className="hover:bg-secondary rounded-lg ">
+                <a
+                  onClick={() => handleSort("element")}
+                  className={`btn btn-sm text-base-content hover:btn-secondary hover:text-base-content ${
+                    sortBy === "element" ? "btn-secondary" : "btn-ghost"
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    Élément
+                    {sortOrders.element === "asc" ? (
+                      <MdOutlineKeyboardArrowUp />
+                    ) : (
+                      <MdOutlineKeyboardArrowDown />
+                    )}
+                  </div>
+                </a>
               </li>
-              <li>
-                <button className="btn btn-sm">Type</button>
+              <li className="hover:bg-secondary rounded-lg">
+                <a
+                  onClick={() => handleSort("hp")}
+                  className={`btn btn-sm text-base-content hover:btn-secondary hover:text-base-content ${
+                    sortBy === "hp" ? "btn-secondary" : "btn-ghost"
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    Point de vie
+                    {sortOrders.hp === "asc" ? (
+                      <MdOutlineKeyboardArrowUp />
+                    ) : (
+                      <MdOutlineKeyboardArrowDown />
+                    )}
+                  </div>
+                </a>
               </li>
-              <li>
-                <button className="btn btn-sm">Extension</button>
+              <li className="hover:bg-secondary rounded-lg">
+                <a
+                  onClick={() => handleSort("name")}
+                  className={`btn btn-sm text-base-content hover:btn-secondary hover:text-base-content ${
+                    sortBy === "name" ? "btn-secondary" : "btn-ghost"
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    Nom
+                    {sortOrders.name === "asc" ? (
+                      <MdOutlineKeyboardArrowUp />
+                    ) : (
+                      <MdOutlineKeyboardArrowDown />
+                    )}
+                  </div>
+                </a>
               </li>
-              <li>
-                <button className="btn btn-sm">Nom</button>
+              <li className="hover:bg-secondary rounded-lg">
+                <a
+                  onClick={() => handleSort("type")}
+                  className={`btn btn-sm text-base-content hover:btn-secondary hover:text-base-content ${
+                    sortBy === "type" ? "btn-secondary" : "btn-ghost"
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    Type
+                    {sortOrders.type === "asc" ? (
+                      <MdOutlineKeyboardArrowUp />
+                    ) : (
+                      <MdOutlineKeyboardArrowDown />
+                    )}
+                  </div>
+                </a>
+              </li>
+              <li className="hover:bg-secondary rounded-lg">
+                <a
+                  onClick={() => handleSort("extension")}
+                  className={`btn btn-sm text-base-content hover:btn-secondary hover:text-base-content ${
+                    sortBy === "extension" ? "btn-secondary" : "btn-ghost"
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    Extension
+                    {sortOrders.extension === "asc" ? (
+                      <MdOutlineKeyboardArrowUp />
+                    ) : (
+                      <MdOutlineKeyboardArrowDown />
+                    )}
+                  </div>
+                </a>
               </li>
             </ul>
           )}

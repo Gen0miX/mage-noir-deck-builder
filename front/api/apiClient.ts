@@ -4,7 +4,7 @@ const apiClient = axios.create({
   baseURL:
     process.env.NEXT_PUBLIC_API_URL ||
     "https://mage-noir-deck-builder.onrender.com",
-  timeout: 10000,
+  timeout: 1000000,
 });
 
 apiClient.interceptors.request.use(

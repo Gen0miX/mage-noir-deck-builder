@@ -3,12 +3,6 @@ export interface Component {
   name: string;
 }
 
-export type SortableField =
-  | "name"
-  | "element.name"
-  | "type.name"
-  | "extension.name";
-
 export interface ComponentCard {
   id: number;
   name: string;

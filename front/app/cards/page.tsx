@@ -32,7 +32,8 @@ const CardsPage: React.FC = () => {
     activeFilters,
     manaCostSliders,
     hpSlider,
-    sortCriteria,
+    sortBy,
+    sortOrders,
   } = useCards();
 
   if (loading) return <Loading />;
@@ -99,9 +100,36 @@ const CardsPage: React.FC = () => {
       filtered = filtered.filter((card) => card.hp >= hpSlider);
     }
 
+    filtered = [...filtered].sort((a, b) => {
+      let comparison = 0;
+      switch (sortBy) {
+        case "name":
+          comparison = a.name.localeCompare(b.name);
+          break;
+        case "element":
+          comparison = a.elementId - b.elementId;
+          break;
+        case "type":
+          comparison = a.type.name.localeCompare(b.type.name);
+          break;
+        case "hp":
+          comparison = a.hp - b.hp;
+          break;
+        case "extension":
+          comparison = a.extension.name.localeCompare(b.extension.name);
+          break;
+      }
+
+      // Inverse le résultat si l'ordre est "desc" pour ce critère
+      return sortOrders[sortBy] === "desc" ? -comparison : comparison;
+    });
+
     // Step 4: Return the filtered cards
     // If no filters or sliders are active, return all cards
-    return activeFilters.length || manaCostSliders.length || hpSlider > 0
+    return activeFilters.length ||
+      manaCostSliders.length ||
+      hpSlider > 0 ||
+      filtered
       ? filtered
       : cards;
   })();

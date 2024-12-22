@@ -27,8 +27,14 @@ export interface CardsContextType {
   hpSlider: number;
   updateHpSlider: (value: number) => void;
   resetFilters: () => void;
-  sortCriteria: { field: string; order: "asc" | "desc" };
-  updateSortCriteria: (field: string) => void;
+  sortBy: "name" | "element" | "type" | "hp" | "extension";
+  setSortBy: (sortBy: "name" | "element" | "type" | "hp" | "extension") => void;
+  sortOrders: {
+    [key in "name" | "element" | "type" | "hp" | "extension"]: "asc" | "desc";
+  };
+  toggleSortOrder: (
+    key: "name" | "element" | "type" | "hp" | "extension"
+  ) => void;
 }
 
 const CardsContext = createContext<CardsContextType | undefined>(undefined);
@@ -44,10 +50,18 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [manaCostSliders, setManaCostSliders] = useState<ManaCostSlider[]>([]);
   const [hpSlider, setHpSlider] = useState<number>(0);
 
-  const [sortCriteria, setSortCriteria] = useState<{
-    field: string;
-    order: "asc" | "desc";
-  }>({ field: "", order: "asc" });
+  const [sortBy, setSortBy] = useState<
+    "name" | "element" | "type" | "hp" | "extension"
+  >("element");
+  const [sortOrders, setSortOrders] = useState<{
+    [key in "name" | "element" | "type" | "hp" | "extension"]: "asc" | "desc";
+  }>({
+    name: "asc",
+    element: "asc",
+    type: "asc",
+    hp: "desc",
+    extension: "asc",
+  });
 
   const [loading, setLoading] = useState(true);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
@@ -98,10 +112,12 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
     setHpSlider(0);
   };
 
-  const updateSortCriteria = (field: string) => {
-    setSortCriteria((prev) => ({
-      field,
-      order: prev.field === field && prev.order === "asc" ? "desc" : "asc",
+  const toggleSortOrder = (
+    key: "name" | "element" | "type" | "hp" | "extension"
+  ) => {
+    setSortOrders((prevOrders) => ({
+      ...prevOrders,
+      [key]: prevOrders[key] === "asc" ? "desc" : "asc",
     }));
   };
 
@@ -162,8 +178,10 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
         hpSlider,
         updateHpSlider,
         resetFilters,
-        sortCriteria,
-        updateSortCriteria,
+        sortBy,
+        setSortBy,
+        sortOrders,
+        toggleSortOrder,
       }}
     >
       {children}
