@@ -37,6 +37,14 @@ export interface CardsContextType {
   ) => void;
   activeComponentNameFilters: string[];
   toggleComponentNameFilter: (componentName: string) => void;
+  countActiveFiltersByCategory: {
+    elements: number;
+    types: number;
+    componentsNeeded: number;
+    componentsIncluded: number;
+    extensions: number;
+    manaCostSliders: number;
+  };
 }
 
 const CardsContext = createContext<CardsContextType | undefined>(undefined);
@@ -122,7 +130,25 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
   const resetFilters = () => {
     setActiveFilters([]);
     setManaCostSliders([]);
+    setActiveComponentNameFilters([]);
     setHpSlider(0);
+  };
+
+  const countActiveFiltersByCategory = {
+    elements: activeFilters.filter((filter) =>
+      elements.some((element) => element.name === filter)
+    ).length,
+    types: activeFilters.filter((filter) =>
+      types.some((type) => type.name === filter)
+    ).length,
+    componentsNeeded: activeFilters.filter((filter) =>
+      components.some((component) => component.name === filter)
+    ).length,
+    componentsIncluded: activeComponentNameFilters.length,
+    extensions: activeFilters.filter((filter) =>
+      extensions.some((extension) => extension.name === filter)
+    ).length,
+    manaCostSliders: manaCostSliders.length,
   };
 
   const toggleSortOrder = (
@@ -197,6 +223,7 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
         toggleSortOrder,
         activeComponentNameFilters,
         toggleComponentNameFilter,
+        countActiveFiltersByCategory,
       }}
     >
       {children}

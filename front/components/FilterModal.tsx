@@ -23,6 +23,7 @@ export default function FilterModal({ id }: FilterModalProps) {
     hpSlider,
     activeComponentNameFilters,
     toggleComponentNameFilter,
+    countActiveFiltersByCategory,
   } = useCards();
   const [searchQuery, setSearchQuery] = useState("");
   const [hpValue, setHpValue] = useState(hpSlider);
@@ -74,8 +75,13 @@ export default function FilterModal({ id }: FilterModalProps) {
         </h2>
         <div className="collapse collapse-plus bg-base-200">
           <input type="radio" name="filter-accordion" />
-          <div className="collapse-title text-xl font-medium font-heading">
+          <div className="flex collapse-title text-xl font-medium font-heading items-center gap-2">
             Éléments
+            {countActiveFiltersByCategory.elements > 0 && (
+              <span className="badge badge-lg badge-secondary text-base-content w-5 h-5 round-full">
+                {countActiveFiltersByCategory.elements}
+              </span>
+            )}
           </div>
           <div className="collapse-content flex justify-evenly overflow-y-auto">
             {filteredElements.map((element) => (
@@ -95,8 +101,13 @@ export default function FilterModal({ id }: FilterModalProps) {
         </div>
         <div className="collapse collapse-plus bg-base-200">
           <input type="radio" name="filter-accordion" />
-          <div className="collapse-title text-xl font-medium font-heading">
+          <div className="flex collapse-title text-xl font-medium font-heading items-center gap-2">
             Coût en mana
+            {countActiveFiltersByCategory.manaCostSliders > 0 && (
+              <span className="badge badge-lg badge-secondary text-base-content w-5 h-5 round-full">
+                {countActiveFiltersByCategory.manaCostSliders}
+              </span>
+            )}
           </div>
           <div className="collapse-content overflow-y-auto">
             <div className="flex flex-col gap-2">
@@ -136,8 +147,13 @@ export default function FilterModal({ id }: FilterModalProps) {
         </div>
         <div className="collapse collapse-plus bg-base-200">
           <input type="radio" name="filter-accordion" />
-          <div className="collapse-title text-xl font-medium font-heading ">
+          <div className="flex collapse-title text-xl font-medium font-heading items-center gap-2">
             Composants (Besoin)
+            {countActiveFiltersByCategory.componentsNeeded > 0 && (
+              <span className="badge badge-lg badge-secondary text-base-content">
+                {countActiveFiltersByCategory.componentsNeeded}
+              </span>
+            )}
           </div>
           <div className="collapse-content grid grid-cols-2 gap-1 overflow-y-auto">
             {filteredComponentsNeeded.map((component) => {
@@ -162,8 +178,13 @@ export default function FilterModal({ id }: FilterModalProps) {
         </div>
         <div className="collapse collapse-plus bg-base-200">
           <input type="radio" name="filter-accordion" />
-          <div className="collapse-title text-xl font-medium font-heading ">
+          <div className="flex collapse-title text-xl font-medium font-heading items-center gap-2">
             Composants (Contient)
+            {countActiveFiltersByCategory.componentsIncluded > 0 && (
+              <span className="badge badge-lg badge-secondary text-base-content w-5 h-5 round-full">
+                {countActiveFiltersByCategory.componentsIncluded}
+              </span>
+            )}
           </div>
           <div className="collapse-content grid grid-cols-2 gap-1 overflow-y-auto">
             {filteredComponentsIncluded.map((component) => {
@@ -190,8 +211,13 @@ export default function FilterModal({ id }: FilterModalProps) {
         </div>
         <div className="collapse collapse-plus bg-base-200">
           <input type="radio" name="filter-accordion" />
-          <div className="collapse-title text-xl font-medium font-heading">
+          <div className="flex collapse-title text-xl font-medium font-heading items-center gap-2">
             Types
+            {countActiveFiltersByCategory.types > 0 && (
+              <span className="badge badge-lg badge-secondary text-base-content w-5 h-5 round-full">
+                {countActiveFiltersByCategory.types}
+              </span>
+            )}
           </div>
           <div className="collapse-content grid grid-cols-2 gap-1 overflow-y-auto">
             {filteredTypes.map((type) => {
@@ -215,8 +241,13 @@ export default function FilterModal({ id }: FilterModalProps) {
         </div>
         <div className="collapse collapse-plus bg-base-200">
           <input type="radio" name="filter-accordion" />
-          <div className="collapse-title text-xl font-medium font-heading">
+          <div className="flex collapse-title text-xl font-medium font-heading items-center gap-2">
             Extension
+            {countActiveFiltersByCategory.extensions > 0 && (
+              <span className="badge badge-lg badge-secondary text-base-content w-5 h-5 round-full">
+                {countActiveFiltersByCategory.extensions}
+              </span>
+            )}
           </div>
           <div className="collapse-content grid grid-cols-2 gap-1 overflow-y-auto">
             {filteredExtensions.map((extension) => {
