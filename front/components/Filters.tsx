@@ -38,16 +38,14 @@ export default function Filter() {
     key: "name" | "element" | "type" | "hp" | "extension"
   ) => {
     if (sortBy === key) {
-      // Si l'utilisateur reclique sur le même critère, bascule l'ordre
       toggleSortOrder(key);
     } else {
-      // Change le critère et initialise son tri en ascendant
       setSortBy(key);
     }
   };
 
   return (
-    <div className="sticky top-0 flex flex-col w-full p-3 z-50 bg-base-200 border-b border-b-base-content border-opacity-40 gap-2">
+    <div className="sticky top-0 flex flex-col w-full p-3 z-50 bg-base-200 border-b border-b-base-content border-opacity-40 gap-2 font-p">
       <div className="flex w-full gap-2">
         <label className="input input-bordered input-sm flex items-center gap-2 bg-base-200 w-full lg:input-md">
           <input type="text" className="grow" placeholder="Rechercher..." />
@@ -96,9 +94,9 @@ export default function Filter() {
                   <div className="flex items-center justify-between w-full">
                     Élément
                     {sortOrders.element === "asc" ? (
-                      <MdOutlineKeyboardArrowUp />
+                      <MdOutlineKeyboardArrowUp size={18} />
                     ) : (
-                      <MdOutlineKeyboardArrowDown />
+                      <MdOutlineKeyboardArrowDown size={18} />
                     )}
                   </div>
                 </a>
@@ -113,9 +111,9 @@ export default function Filter() {
                   <div className="flex items-center justify-between w-full">
                     Point de vie
                     {sortOrders.hp === "asc" ? (
-                      <MdOutlineKeyboardArrowUp />
+                      <MdOutlineKeyboardArrowUp size={18} />
                     ) : (
-                      <MdOutlineKeyboardArrowDown />
+                      <MdOutlineKeyboardArrowDown size={18} />
                     )}
                   </div>
                 </a>
@@ -130,9 +128,9 @@ export default function Filter() {
                   <div className="flex items-center justify-between w-full">
                     Nom
                     {sortOrders.name === "asc" ? (
-                      <MdOutlineKeyboardArrowUp />
+                      <MdOutlineKeyboardArrowUp size={18} />
                     ) : (
-                      <MdOutlineKeyboardArrowDown />
+                      <MdOutlineKeyboardArrowDown size={18} />
                     )}
                   </div>
                 </a>
@@ -147,9 +145,9 @@ export default function Filter() {
                   <div className="flex items-center justify-between w-full">
                     Type
                     {sortOrders.type === "asc" ? (
-                      <MdOutlineKeyboardArrowUp />
+                      <MdOutlineKeyboardArrowUp size={18} />
                     ) : (
-                      <MdOutlineKeyboardArrowDown />
+                      <MdOutlineKeyboardArrowDown size={18} />
                     )}
                   </div>
                 </a>
@@ -164,9 +162,9 @@ export default function Filter() {
                   <div className="flex items-center justify-between w-full">
                     Extension
                     {sortOrders.extension === "asc" ? (
-                      <MdOutlineKeyboardArrowUp />
+                      <MdOutlineKeyboardArrowUp size={18} />
                     ) : (
-                      <MdOutlineKeyboardArrowDown />
+                      <MdOutlineKeyboardArrowDown size={18} />
                     )}
                   </div>
                 </a>

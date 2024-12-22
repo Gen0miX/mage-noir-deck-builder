@@ -35,6 +35,8 @@ export interface CardsContextType {
   toggleSortOrder: (
     key: "name" | "element" | "type" | "hp" | "extension"
   ) => void;
+  activeComponentNameFilters: string[];
+  toggleComponentNameFilter: (componentName: string) => void;
 }
 
 const CardsContext = createContext<CardsContextType | undefined>(undefined);
@@ -49,6 +51,9 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [extensions, setExtensions] = useState<Extension[]>([]);
   const [manaCostSliders, setManaCostSliders] = useState<ManaCostSlider[]>([]);
   const [hpSlider, setHpSlider] = useState<number>(0);
+  const [activeComponentNameFilters, setActiveComponentNameFilters] = useState<
+    string[]
+  >([]);
 
   const [sortBy, setSortBy] = useState<
     "name" | "element" | "type" | "hp" | "extension"
@@ -87,6 +92,14 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
       prevFilters.includes(filter)
         ? prevFilters.filter((f) => f !== filter)
         : [...prevFilters, filter]
+    );
+  };
+
+  const toggleComponentNameFilter = (componentName: string) => {
+    setActiveComponentNameFilters((prevFilters) =>
+      prevFilters.includes(componentName)
+        ? prevFilters.filter((name) => name !== componentName)
+        : [...prevFilters, componentName]
     );
   };
 
@@ -182,6 +195,8 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
         setSortBy,
         sortOrders,
         toggleSortOrder,
+        activeComponentNameFilters,
+        toggleComponentNameFilter,
       }}
     >
       {children}

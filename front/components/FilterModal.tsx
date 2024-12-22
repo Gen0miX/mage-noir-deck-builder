@@ -21,6 +21,8 @@ export default function FilterModal({ id }: FilterModalProps) {
     updateHpSlider,
     resetFilters,
     hpSlider,
+    activeComponentNameFilters,
+    toggleComponentNameFilter,
   } = useCards();
   const [searchQuery, setSearchQuery] = useState("");
   const [hpValue, setHpValue] = useState(hpSlider);
@@ -43,7 +45,11 @@ export default function FilterModal({ id }: FilterModalProps) {
     filter.name.toLowerCase().includes(searchQuery)
   );
 
-  const filteredComponents = components.filter((component) =>
+  const filteredComponentsNeeded = components.filter((component) =>
+    component.name.toLowerCase().includes(searchQuery)
+  );
+
+  const filteredComponentsIncluded = components.filter((component) =>
     component.name.toLowerCase().includes(searchQuery)
   );
 
@@ -131,10 +137,10 @@ export default function FilterModal({ id }: FilterModalProps) {
         <div className="collapse collapse-plus bg-base-200">
           <input type="radio" name="filter-accordion" />
           <div className="collapse-title text-xl font-medium font-heading ">
-            Composants
+            Composants (Besoin)
           </div>
           <div className="collapse-content grid grid-cols-2 gap-1 overflow-y-auto">
-            {filteredComponents.map((component) => {
+            {filteredComponentsNeeded.map((component) => {
               const isChecked = activeFilters.includes(component.name);
 
               return (
@@ -147,6 +153,34 @@ export default function FilterModal({ id }: FilterModalProps) {
                     className="checkbox checkbox-primary"
                     checked={isChecked}
                     onChange={() => toggleFilter(component.name)}
+                  />
+                  <span className="label-text">{component.name}</span>
+                </label>
+              );
+            })}
+          </div>
+        </div>
+        <div className="collapse collapse-plus bg-base-200">
+          <input type="radio" name="filter-accordion" />
+          <div className="collapse-title text-xl font-medium font-heading ">
+            Composants (Contient)
+          </div>
+          <div className="collapse-content grid grid-cols-2 gap-1 overflow-y-auto">
+            {filteredComponentsIncluded.map((component) => {
+              const isChecked = activeComponentNameFilters.includes(
+                component.name
+              );
+
+              return (
+                <label
+                  key={component.id}
+                  className="label cursor-pointer flex justify-start gap-2"
+                >
+                  <input
+                    type="checkbox"
+                    className="checkbox checkbox-primary"
+                    checked={isChecked}
+                    onChange={() => toggleComponentNameFilter(component.name)}
                   />
                   <span className="label-text">{component.name}</span>
                 </label>
