@@ -57,6 +57,15 @@ export default function NavBar() {
             </div>
           </div>
           <div className="navbar-end">
+            <Link
+              href="/login"
+              role="button"
+              className={`btn btn-sm text-base-content mr-2 text-lg font-light hover:bg-secondary ${
+                pathname === "/login" ? "btn-secondary" : "btn-ghost"
+              } `}
+            >
+              Login
+            </Link>
             <div className="md:hidden">
               <label
                 htmlFor="my-drawer-3"
