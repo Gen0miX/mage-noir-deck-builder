@@ -39,9 +39,9 @@ const CardPage: React.FC = () => {
         <button
           type="button"
           onClick={() => router.back()}
-          className="btn btn-circle btn-primary absolute top-0 right-0 mr-2 mt-2"
+          className="btn btn-circle btn-primary absolute top-0 right-0 m-5 lg:m-10"
         >
-          <FaTimes size={20} />
+          <FaTimes size={20} className="text-base-content" />
         </button>
         <div className="rounded-lg overflow-hidden shadow-lg w-full max-w-[372px] m-5">
           <Image

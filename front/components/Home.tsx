@@ -1,5 +1,5 @@
 import Image from "next/image";
-import bg from "@/public/cape_galactique_wallpaper.png";
+import bg from "@/public/rituel_du_vide_wallpaper.png";
 import Loading from "./Loading";
 
 export default function Home() {
@@ -15,10 +15,10 @@ export default function Home() {
             Recherchez un deck ou créez le vôtre !
           </h2>
           <div className="flex justify-center gap-4">
-            <button className="btn btn-secondary w-24 text-base-content text-lg">
+            <button className="btn btn-secondary w-24 text-base-content text-lg shadow-md">
               Chercher
             </button>
-            <button className="btn btn-primary w-24 text-base-content text-lg">
+            <button className="btn btn-primary w-24 text-base-content text-lg shadow-md ">
               Créer
             </button>
           </div>
@@ -30,7 +30,6 @@ export default function Home() {
         placeholder="blur"
         quality={100}
         fill
-        sizes="100vw"
         style={{
           objectFit: "cover",
           zIndex: -1,

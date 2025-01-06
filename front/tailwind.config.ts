@@ -23,8 +23,8 @@ export default {
     themes: [
       {
         mage_noir: {
-          primary: "#ec6553",
-          secondary: "#39A2AE",
+          primary: "#7288b9",
+          secondary: "#8877b6",
           accent: "#FFDA22",
           neutral: "#FFFFFF",
           "base-100": "#171717",

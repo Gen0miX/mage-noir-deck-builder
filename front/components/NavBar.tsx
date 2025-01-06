@@ -2,9 +2,11 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { TiThMenu } from "react-icons/ti";
 import { FaTimes } from "react-icons/fa";
+import logoImage from "@/public/Cercle_mage_noir_blanc.png";
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -30,7 +32,8 @@ export default function NavBar() {
             href="/"
             className="text-2xl font-medium mr-6 font-heading min-w-fit"
           >
-            Les Arcanes du Mage
+            <Image src={logoImage} alt={"Logo cercle Mage Noir"} width={55} />
+            <span className="hidden md:block md:ml-2">Les Arcanes du Mage</span>
           </Link>
           <div className="navbar-start">
             <div className="gap-2 hidden md:flex">
@@ -90,7 +93,7 @@ export default function NavBar() {
             className="btn btn-sm btn-circle btn-primary absolute right-4 top-4"
             onClick={closeDrawer}
           >
-            <FaTimes />
+            <FaTimes className="text-base-content" />
           </button>
           <ul className="menu min-h-full w-60 p-4">
             <li>
