@@ -1,5 +1,5 @@
 import vine from '@vinejs/vine'
-import { schema, rule } from '@adonisjs/core/validator'
+import { schema, rules } from '@adonisjs/core/validator'
 
 const password = vine.string().minLength(8)
 
