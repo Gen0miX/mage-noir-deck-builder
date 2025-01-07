@@ -4,6 +4,7 @@ import "./globals.css";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { CardsProvider } from "@/context/CardsContext";
+import { AuthProvider } from "@/context/AuthContext";
 
 const ebGaramond = EB_Garamond({
   variable: "--font-eb-garamond",
@@ -33,13 +34,15 @@ export default function RootLayout({
         className={`${ebGaramond.variable} ${montserrat.variable} antialiased`}
       >
         <div className="flex flex-col h-svh">
-          <NavBar />
-          <CardsProvider>
-            <main className="flex-1 overflow-y-auto relative z-0">
-              {children}
-            </main>
-          </CardsProvider>
-          <Footer />
+          <AuthProvider>
+            <NavBar />
+            <CardsProvider>
+              <main className="flex-1 overflow-y-auto relative z-0">
+                {children}
+              </main>
+            </CardsProvider>
+            <Footer />
+          </AuthProvider>
         </div>
       </body>
     </html>
