@@ -186,7 +186,7 @@ export default function FilterModal({ id }: FilterModalProps) {
               </span>
             )}
           </div>
-          <div className="collapse-content grid grid-cols-2 gap-1 overflow-y-auto">
+          <div className="collapse-content grid grid-cols-2 gap-1 overflow-y-auto max-h-64">
             {filteredComponentsIncluded.map((component) => {
               const isChecked = activeComponentNameFilters.includes(
                 component.name
