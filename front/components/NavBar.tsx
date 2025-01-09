@@ -5,13 +5,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { TiThMenu } from "react-icons/ti";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaUserAlt } from "react-icons/fa";
 import logoImage from "@/public/Cercle_mage_noir_blanc.png";
 import { useAuth } from "@/context/AuthContext";
 
 export default function NavBar() {
   const pathname = usePathname();
   const drawerCheckboxRef = useRef<HTMLInputElement>(null);
+  const token = localStorage.getItem("token");
   const { user, logout } = useAuth();
 
   const closeDrawer = () => {
@@ -59,15 +60,16 @@ export default function NavBar() {
             </div>
           </div>
           <div className="navbar-end">
-            {user ? (
-              <>
-                <Link
-                  href="/profile"
-                  className="btn btn-sm btn-ghost text-base-content text-lg font-light hover:bg-secondary"
-                >
-                  {user.fullName}
-                </Link>
-              </>
+            {token ? (
+              <Link
+                href="/profile"
+                className={`btn btn-sm text-base-content mr-2 text-lg font-light hover:bg-secondary ${
+                  pathname === "/profile" ? "btn-secondary" : "btn-ghost"
+                } `}
+              >
+                <FaUserAlt size={20}></FaUserAlt>
+                {localStorage.getItem("userName")}
+              </Link>
             ) : (
               <Link
                 href="/login"

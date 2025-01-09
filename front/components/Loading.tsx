@@ -12,14 +12,14 @@ export default function Loading() {
             key={id}
             className="w-10 sm:w-14"
             animate={{
-              y: [0, -30, 0], // Mouvement de "saut"
+              y: [0, -30, 0],
             }}
             transition={{
-              duration: 0.8, // Durée de chaque saut
+              duration: 0.8,
               ease: "easeInOut",
-              repeat: Infinity, // Animation infinie
+              repeat: Infinity,
               repeatDelay: 0.8,
-              delay: index * 0.2, // Délai progressif pour chaque icône
+              delay: index * 0.2,
             }}
           >
             <ElementIcon id={id} />

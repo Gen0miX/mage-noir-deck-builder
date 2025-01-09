@@ -6,9 +6,9 @@ export default function Home() {
   return (
     <section className="flex flex-1 justify-center items-center font-p h-full">
       <div className="">
-        <h1 className="text-3xl font-semibold text-center">
+        <h1 className="text-2xl font-medium sm:text-3xl  text-center">
           Un site de deck building pour <br />
-          <span className="text-7xl font-heading font-black uppercase">
+          <span className="text-5xl sm:text-6xl font-heading font-black uppercase">
             mage noir.
           </span>
         </h1>

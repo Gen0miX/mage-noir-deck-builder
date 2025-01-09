@@ -4,12 +4,13 @@ import { useRouter } from "next/navigation";
 import { FaUser, FaKey } from "react-icons/fa6";
 import { login } from "@/api/authApi";
 import { useAuth } from "@/context/AuthContext";
+import Loading from "@/components/Loading";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { setUser } = useAuth();
+  const { setUser, loading } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -17,6 +18,7 @@ export default function LoginForm() {
     try {
       const data = await login({ email, password });
       localStorage.setItem("token", data.token.token);
+      localStorage.setItem("userName", data.user.fullName);
       setUser(data.user);
       router.push("/");
     } catch (error) {
@@ -24,6 +26,14 @@ export default function LoginForm() {
       setError("Email ou mot de passe incorrect");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col justify-center gap-3 px-3 sm:px-10 md:px-14 bg-base-200 bg-opacity-90 border border-base-content border-opacity-40 rounded-lg shadow-lg">
+        <Loading></Loading>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col justify-center gap-3 px-3 sm:px-10 md:px-14 bg-base-200 bg-opacity-90 border border-base-content border-opacity-40 rounded-lg shadow-lg">

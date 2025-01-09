@@ -46,6 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       console.log("Erreur lors de la déconnexion :", err);
     } finally {
       localStorage.removeItem("token");
+      localStorage.removeItem("userName");
       setUser(null);
       router.push("/");
     }
