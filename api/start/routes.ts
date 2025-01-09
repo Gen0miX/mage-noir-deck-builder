@@ -28,7 +28,7 @@ router.get('/', async () => {
 router.post('/register', [AuthController, 'register']).as('auth.register')
 router.post('/login', [AuthController, 'login']).as('auth.login')
 router.delete('/logout', [AuthController, 'logout']).as('auth.logout').use(middleware.auth())
-router.get('/me', [AuthController, 'me']).as('auth.me')
+router.get('/me', [AuthController, 'me']).as('auth.me').use(middleware.auth())
 
 router.group(() => {
   router.get('/cards/filter', [CardsController, 'filter'])

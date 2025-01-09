@@ -30,10 +30,7 @@ export default function NavBar() {
       />
       <div className="drawer-content flex flex-col">
         <div className="navbar bg-base-200 border-b border-b-base-content border-opacity-40 min-h-14 font-p sticky top-0">
-          <Link
-            href="/"
-            className="text-2xl font-medium mr-6 font-heading min-w-fit"
-          >
+          <Link href="/" className="text-3xl mr-6 font-heading min-w-fit">
             <Image src={logoImage} alt={"Logo cercle Mage Noir"} width={55} />
             <span className="hidden md:block md:ml-2">Les Arcanes du Mage</span>
           </Link>

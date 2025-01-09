@@ -18,7 +18,12 @@ export const login = async (credentials: {
 };
 
 export const logout = async () => {
-  const response = await apiClient.delete("/logout");
+  const token = localStorage.getItem("token");
+  const response = await apiClient.delete("/logout", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 };
 

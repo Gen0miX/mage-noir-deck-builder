@@ -16,9 +16,7 @@ export default function LoginForm() {
     e.preventDefault();
     try {
       const data = await login({ email, password });
-      console.log(data);
-      console.log("User : " + data.user);
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("token", data.token.token);
       setUser(data.user);
       router.push("/");
     } catch (error) {
