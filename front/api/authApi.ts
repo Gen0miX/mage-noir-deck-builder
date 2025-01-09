@@ -23,6 +23,11 @@ export const logout = async () => {
 };
 
 export const fetchMe = async () => {
-  const response = await apiClient.get("/me");
+  const token = localStorage.getItem("token");
+  const response = await apiClient.get("/me", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 };

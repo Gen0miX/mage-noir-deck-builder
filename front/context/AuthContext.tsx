@@ -7,6 +7,7 @@ interface AuthContextType {
   user: any;
   loading: boolean;
   logout: () => void;
+  setUser: (user: any) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -20,6 +21,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const loadUser = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
       try {
         const data = await fetchMe();
         setUser(data.user);
@@ -33,14 +40,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const handleLogout = async () => {
-    await logout();
-    localStorage.removeItem("token");
-    setUser(null);
-    router.push("/login");
+    try {
+      await logout();
+    } catch (err) {
+      console.log("Erreur lors de la déconnexion :", err);
+    } finally {
+      localStorage.removeItem("token");
+      setUser(null);
+      router.push("/");
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, logout: handleLogout }}>
+    <AuthContext.Provider
+      value={{ user, loading, logout: handleLogout, setUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

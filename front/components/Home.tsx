@@ -8,7 +8,9 @@ export default function Home() {
       <div className="">
         <h1 className="text-3xl font-semibold text-center">
           Un site de deck building pour <br />
-          <span className="text-7xl font-heading font-black">Mage Noir.</span>
+          <span className="text-7xl font-heading font-black uppercase">
+            mage noir.
+          </span>
         </h1>
         <div>
           <h2 className="text-xl text-center mt-10 mb-5">

@@ -3,20 +3,26 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaUser, FaKey } from "react-icons/fa6";
 import { login } from "@/api/authApi";
+import { useAuth } from "@/context/AuthContext";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { setUser } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const data = await login({ email, password });
+      console.log(data);
+      console.log("User : " + data.user);
       localStorage.setItem("token", data.token);
+      setUser(data.user);
       router.push("/");
     } catch (error) {
+      console.log(error);
       setError("Email ou mot de passe incorrect");
     }
   };

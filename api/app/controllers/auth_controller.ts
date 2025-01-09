@@ -13,11 +13,16 @@ export default class AuthController {
     return User.accessTokens.create(user)
   }
 
-  async login({ request }: HttpContext) {
+  async login({ request, response }: HttpContext) {
     const { email, password } = await request.validateUsing(loginValidator)
-    const user = await User.verifyCredentials(email, password)
 
-    return User.accessTokens.create(user)
+    try {
+      const user = await User.verifyCredentials(email, password)
+      const token = await User.accessTokens.create(user)
+      return { token, user }
+    } catch (error) {
+      return response.status(400).json({ message: 'Invalid credentials' })
+    }
   }
 
   async logout({ auth }: HttpContext) {
