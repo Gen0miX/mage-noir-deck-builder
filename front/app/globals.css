@@ -15,5 +15,5 @@ nav {
 }
 
 .collapse-content {
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch; /* Améliore le scrolling sur iOS */
 }
