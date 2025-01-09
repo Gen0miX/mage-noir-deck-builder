@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -12,8 +12,15 @@ import { useAuth } from "@/context/AuthContext";
 export default function NavBar() {
   const pathname = usePathname();
   const drawerCheckboxRef = useRef<HTMLInputElement>(null);
-  const token = localStorage.getItem("token");
   const { user, logout } = useAuth();
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      setToken(storedToken);
+    }
+  }, []);
 
   const closeDrawer = () => {
     if (drawerCheckboxRef.current) {
@@ -60,7 +67,7 @@ export default function NavBar() {
             </div>
           </div>
           <div className="navbar-end">
-            {token ? (
+            {user ? (
               <Link
                 href="/profile"
                 className={`btn btn-sm text-base-content mr-2 text-lg font-light hover:bg-secondary ${
