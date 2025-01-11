@@ -8,6 +8,6 @@ export default class DeleteUnverifiedUsers extends BaseCommand {
   static options: CommandOptions = {}
 
   async run() {
-    this.logger.info('Hello world from "DeleteUnverifiedUsers"')
+    console.log('Hello world from "DeleteUnverifiedUsers"')
   }
 }
