@@ -1,16 +1,31 @@
 import User from '#models/user'
+import crypto from 'crypto'
+import mail from '@adonisjs/mail/services/main'
 import { loginValidator, registerValidator } from '#validators/auth'
 import type { HttpContext } from '@adonisjs/core/http'
+import { DateTime } from 'luxon'
 
 export default class AuthController {
-  async register({ request }: HttpContext) {
+  async register({ request, response }: HttpContext) {
     const data = await request.validateUsing(registerValidator)
+    const verificationToken = crypto.randomBytes(32).toString('hex')
     const user = await User.create({
       email: data.email,
       password: data.password,
       fullName: data.username,
+      emailVerificationToken: verificationToken,
+      emailVerificationSentAt: DateTime.now(),
     })
-    return User.accessTokens.create(user)
+
+    await mail.send((message) => {
+      message
+        .to(user.email)
+        .from('no-reply@jonas-pilloud.ch')
+        .subject('Vérifiez votre Email !')
+        .htmlView('emails/verify-email', { token: verificationToken, user })
+    })
+
+    return response.created({ message: 'User registered successfully. Verification Email sent !' })
   }
 
   async login({ request, response }: HttpContext) {
