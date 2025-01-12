@@ -17,12 +17,17 @@ export default class AuthController {
       emailVerificationSentAt: DateTime.now(),
     })
 
+    const verificationLink = 'http://localhost:3000/verify-email/' + verificationToken.toString()
+
     await mail.send((message) => {
       message
         .to(user.email)
         .from('no-reply@jonas-pilloud.ch')
         .subject('Vérifiez votre Email !')
-        .htmlView('emails/verify_email', { token: verificationToken, user })
+        .htmlView('emails/verify_email', {
+          verification_url: verificationLink,
+          username: data.username,
+        })
     })
 
     return response.created({ message: 'User registered successfully. Verification Email sent !' })

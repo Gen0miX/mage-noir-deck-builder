@@ -18,12 +18,14 @@ export default class EmailsController {
     user.emailVerificationSentAt = DateTime.now()
     await user.save()
 
+    const username = user.fullName
+
     await mail.send((message) => {
       message
         .to(user.email)
         .from('no-reply@jonas-pilloud.ch')
         .subject('Vérifiez votre Email !')
-        .htmlView('emails/verify_email', { token, user })
+        .htmlView('emails/verify_email', { token, username })
     })
     return response.ok({ message: 'Verification Email sent !' })
   }
