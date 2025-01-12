@@ -42,6 +42,7 @@ export default defineConfig({
       file: () => import('adonisjs-scheduler/scheduler_provider'),
       environment: ['console', 'web'],
     },
+    () => import('@adonisjs/core/providers/edge_provider')
   ],
 
   /*
@@ -85,4 +86,8 @@ export default defineConfig({
     ],
     forceExit: false,
   },
+  metaFiles: [{
+    pattern: 'resources/views/**/*.edge',
+    reloadServer: false,
+  }]
 })
