@@ -23,7 +23,7 @@ export default class EmailsController {
         .to(user.email)
         .from('no-reply@jonas-pilloud.ch')
         .subject('Vérifiez votre Email !')
-        .htmlView('emails/verify-email', { token, user })
+        .htmlView('emails/verify_email', { token, user })
     })
     return response.ok({ message: 'Verification Email sent !' })
   }

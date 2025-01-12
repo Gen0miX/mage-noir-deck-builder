@@ -22,7 +22,7 @@ export default class AuthController {
         .to(user.email)
         .from('no-reply@jonas-pilloud.ch')
         .subject('Vérifiez votre Email !')
-        .htmlView('emails/verify-email', { token: verificationToken, user })
+        .htmlView('emails/verify_email', { token: verificationToken, user })
     })
 
     return response.created({ message: 'User registered successfully. Verification Email sent !' })
