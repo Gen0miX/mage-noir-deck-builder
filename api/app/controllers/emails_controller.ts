@@ -18,14 +18,17 @@ export default class EmailsController {
     user.emailVerificationSentAt = DateTime.now()
     await user.save()
 
-    const username = user.fullName
+    const verificationLink = 'http://localhost:3000/verify-email/' + token.toString()
 
     await mail.send((message) => {
       message
         .to(user.email)
         .from('no-reply@jonas-pilloud.ch')
         .subject('Vérifiez votre Email !')
-        .htmlView('emails/verify_email', { token, username })
+        .htmlView('emails/verify_email', {
+          verification_url: verificationLink,
+          username: user.fullName,
+        })
     })
     return response.ok({ message: 'Verification Email sent !' })
   }
@@ -33,7 +36,7 @@ export default class EmailsController {
   async verifyEmail({ params, response }: HttpContext) {
     const token = params.token
 
-    const user = await User.findByOrFail('emailVerificationToken', token)
+    const user = await User.findByOrFail('email_verification_token', token)
 
     if (user.isEmailVerified) {
       return response.badRequest({ message: 'Email already verified !' })
@@ -45,5 +48,45 @@ export default class EmailsController {
     await user.save()
 
     return response.ok({ message: 'Email verified !' })
+  }
+
+  async sendResetPasswordEmail({ request, response }: HttpContext) {
+    const email = request.input('email')
+    const user = await User.findByOrFail('email', email)
+
+    const token = crypto.randomBytes(32).toString('hex')
+    user.passwordResetToken = token
+    user.tokenCreatedAt = DateTime.now()
+    await user.save()
+
+    const resetLink = 'http://localhost:3000/reset-password/' + token.toString()
+
+    await mail.send((message) => {
+      message
+        .to(user.email)
+        .from('no-reply@jonas-pilloud.ch')
+        .subject('Réinitialisez votre mot de passe')
+        .htmlView('emails/rest_password', { reset_url: resetLink, username: user.fullName })
+    })
+    return response.ok({ message: 'Password reset email sent!' })
+  }
+
+  async resetPassword({ request, response }: HttpContext) {
+    const { token, newPassword } = request.all()
+    const user = await User.findByOrFail('password_reset_token', token)
+
+    if (user.tokenCreatedAt) {
+      const tokenAge = DateTime.now().diff(user.tokenCreatedAt, 'hours').hours
+      if (tokenAge > 24) {
+        return response.badRequest({ message: 'Token expired' })
+      }
+    }
+
+    user.password = newPassword
+    user.passwordResetToken = null
+    user.tokenCreatedAt = null
+    await user.save()
+
+    return response.ok({ message: 'Password reset successfully !' })
   }
 }

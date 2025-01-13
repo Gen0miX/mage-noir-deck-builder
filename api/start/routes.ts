@@ -11,6 +11,7 @@ import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 
 const AuthController = () => import('#controllers/auth_controller')
+const EmailsController = () => import('#controllers/emails_controller')
 const CardsController = () => import('#controllers/cards_controller')
 const DecksController = () => import('#controllers/decks_controller')
 const ComponentsController = () => import('#controllers/components_controller')
@@ -29,6 +30,13 @@ router.post('/register', [AuthController, 'register']).as('auth.register')
 router.post('/login', [AuthController, 'login']).as('auth.login')
 router.delete('/logout', [AuthController, 'logout']).as('auth.logout').use(middleware.auth())
 router.get('/me', [AuthController, 'me']).as('auth.me').use(middleware.auth())
+
+router.group(() => {
+  router.post('/send-verification-email', [EmailsController, 'sendVerificationEmail'])
+  router.post('/verify-email/:token', [EmailsController, 'verifyEmail'])
+  router.post('/forgot-password', [EmailsController, 'sendResetPasswordEmail'])
+  router.post('/reset-password/:token', [EmailsController, 'resetPassword'])
+})
 
 router.group(() => {
   router.get('/cards/filter', [CardsController, 'filter'])
