@@ -36,3 +36,29 @@ export const fetchMe = async () => {
   });
   return response.data;
 };
+
+export const sendVerificationEmail = async (email: string) => {
+  const response = await apiClient.post("/send-verification-email", email);
+  return response.data;
+};
+
+export const verifyEmail = async (token: string) => {
+  const response = await apiClient.post(`/verify-email/${token}`);
+  return response.data;
+};
+
+export const sendResetPasswordEmail = async (email: string) => {
+  const response = await apiClient.post("/forgot-password", email);
+  return response.data;
+};
+
+export const resetPassword = async (resetData: {
+  token: string;
+  password: string;
+}) => {
+  const response = await apiClient.post(
+    `/reset-password/${resetData.token}`,
+    resetData.password
+  );
+  return response.data;
+};

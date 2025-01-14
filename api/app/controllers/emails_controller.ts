@@ -18,7 +18,8 @@ export default class EmailsController {
     user.emailVerificationSentAt = DateTime.now()
     await user.save()
 
-    const verificationLink = 'http://localhost:3000/verify-email/' + token.toString()
+    const verificationLink =
+      'http://localhost:3000/register/verify-email/' + token.toString() + '?email=' + user.email
 
     await mail.send((message) => {
       message

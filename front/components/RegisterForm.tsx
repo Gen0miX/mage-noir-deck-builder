@@ -20,7 +20,7 @@ export default function RegisterForm() {
     }
     try {
       await register({ email, password, username });
-      router.push("/login"); // Rediriger vers la page de login après l'inscription
+      router.push("/register/verify-email");
     } catch (err) {
       setError("Failed to register");
     }

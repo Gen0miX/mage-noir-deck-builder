@@ -17,7 +17,11 @@ export default class AuthController {
       emailVerificationSentAt: DateTime.now(),
     })
 
-    const verificationLink = 'http://localhost:3000/verify-email/' + verificationToken.toString()
+    const verificationLink =
+      'http://localhost:3000/register/verify-email/' +
+      verificationToken.toString() +
+      '?email=' +
+      user.email
 
     await mail.send((message) => {
       message
