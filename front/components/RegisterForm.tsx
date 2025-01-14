@@ -19,8 +19,9 @@ export default function RegisterForm() {
       return;
     }
     try {
+      console.log(email);
       await register({ email, password, username });
-      router.push("/register/verify-email");
+      router.push("/register/verify-email?email=" + email);
     } catch (err) {
       setError("Failed to register");
     }

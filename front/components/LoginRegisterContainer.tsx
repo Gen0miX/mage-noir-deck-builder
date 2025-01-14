@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import VerifyEmail from "./VerifyEmail";
+import Toast from "./Toast";
 import { FaCheck } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -36,23 +37,9 @@ export default function LoginRegisterContainer({
   }
   return (
     <section className="h-full flex justify-center items-center font-p">
-      <AnimatePresence>
-        {showToast && (
-          <motion.div
-            className="toast toast-top mt-20"
-            role="alert"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div role="alert" className="alert alert-success">
-              <FaCheck size={18} className="text-base-content" />
-              <span>Votre Email a été validé avec succès !</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {showToast && (
+        <Toast type="success">Votre Email a été validé avec succès !</Toast>
+      )}
       {form}
       <Image
         alt="Background image"

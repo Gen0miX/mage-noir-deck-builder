@@ -23,3 +23,9 @@ export const loginValidator = vine.compile(
     password,
   })
 )
+
+export const emailValidator = vine.compile(
+  vine.object({
+    email: vine.string().email().normalizeEmail(),
+  })
+)

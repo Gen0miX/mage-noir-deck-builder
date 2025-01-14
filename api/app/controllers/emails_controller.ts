@@ -3,11 +3,12 @@ import mail from '@adonisjs/mail/services/main'
 import type { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
 import { DateTime } from 'luxon'
+import { emailValidator } from '#validators/auth'
 
 export default class EmailsController {
   async sendVerificationEmail({ request, response }: HttpContext) {
-    const email = request.input('email')
-    const user = await User.findByOrFail('email', email)
+    const data = await request.validateUsing(emailValidator)
+    const user = await User.findByOrFail('email', data.email)
 
     if (user.isEmailVerified) {
       return response.badRequest({ message: 'Email already verified' })

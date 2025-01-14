@@ -38,7 +38,7 @@ export const fetchMe = async () => {
 };
 
 export const sendVerificationEmail = async (email: string) => {
-  const response = await apiClient.post("/send-verification-email", email);
+  const response = await apiClient.post("/send-verification-email", { email });
   return response.data;
 };
 
@@ -48,7 +48,7 @@ export const verifyEmail = async (token: string) => {
 };
 
 export const sendResetPasswordEmail = async (email: string) => {
-  const response = await apiClient.post("/forgot-password", email);
+  const response = await apiClient.post("/forgot-password", { email });
   return response.data;
 };
 
