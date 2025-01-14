@@ -12,7 +12,7 @@ import { useAuth } from "@/context/AuthContext";
 export default function NavBar() {
   const pathname = usePathname();
   const drawerCheckboxRef = useRef<HTMLInputElement>(null);
-  const { user, logout } = useAuth();
+  const { user, loading } = useAuth();
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -67,16 +67,25 @@ export default function NavBar() {
             </div>
           </div>
           <div className="navbar-end">
-            {user ? (
-              <Link
-                href="/profile"
-                className={`btn btn-sm text-base-content mr-2 text-lg font-light hover:bg-secondary ${
-                  pathname === "/profile" ? "btn-secondary" : "btn-ghost"
-                } `}
-              >
-                <FaUserAlt size={20}></FaUserAlt>
-                {localStorage.getItem("userName")}
-              </Link>
+            {user || loading ? (
+              loading ? (
+                <Link
+                  href=""
+                  className="btn btn-sm text-base-content mr-2 text-lg font-light hover:bg-secondary"
+                >
+                  <span className="loading loading-spinner loading-md"></span>
+                </Link>
+              ) : (
+                <Link
+                  href="/profile"
+                  className={`btn btn-sm text-base-content mr-2 text-lg font-light hover:bg-secondary ${
+                    pathname === "/profile" ? "btn-secondary" : "btn-ghost"
+                  } `}
+                >
+                  <FaUserAlt size={20}></FaUserAlt>
+                  {localStorage.getItem("userName")}
+                </Link>
+              )
             ) : (
               <Link
                 href="/login"

@@ -10,6 +10,7 @@ export default function RegisterForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -18,12 +19,16 @@ export default function RegisterForm() {
       setError("Passwords do not match");
       return;
     }
+
+    setIsLoading(true);
+
     try {
-      console.log(email);
       await register({ email, password, username });
       router.push("/register/verify-email?email=" + email);
     } catch (err) {
       setError("Failed to register");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -104,7 +109,11 @@ export default function RegisterForm() {
             type="submit"
             className="grow btn btn-primary flex text-base-content mt-5 mb-10"
           >
-            S'enregistrer
+            {isLoading ? (
+              <span className="loading loading-spinner loading-md"></span>
+            ) : (
+              "S'enregistrer"
+            )}
           </button>
         </div>
       </form>

@@ -22,8 +22,8 @@ export default function LoginRegisterContainer({
 
   useEffect(() => {
     if (isVerified) {
-      const timer = setTimeout(() => setShowToast(false), 3000);
-      return () => clearTimeout(timer); // Nettoyage du timer
+      const timer = setTimeout(() => setShowToast(false), 4000);
+      return () => clearTimeout(timer);
     }
   }, [isVerified]);
 

@@ -10,11 +10,15 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { setUser, loading } = useAuth();
+  const { setUser } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setIsLoading(true);
+
     try {
       const data = await login({ email, password });
       localStorage.setItem("token", data.token.token);
@@ -24,16 +28,10 @@ export default function LoginForm() {
     } catch (error) {
       console.log(error);
       setError("Email ou mot de passe incorrect");
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  if (loading) {
-    return (
-      <div className="flex flex-col justify-center gap-3 px-3 sm:px-10 md:px-14 bg-base-200 bg-opacity-90 border border-base-content border-opacity-40 rounded-lg shadow-lg">
-        <Loading></Loading>
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col justify-center gap-3 px-3 sm:px-10 md:px-14 bg-base-200 bg-opacity-90 border border-base-content border-opacity-40 rounded-lg shadow-lg">
@@ -78,7 +76,11 @@ export default function LoginForm() {
             type="submit"
             className="grow btn btn-primary flex text-base-content mt-5 mb-10"
           >
-            Se connecter
+            {isLoading ? (
+              <span className="loading loading-spinner loading-md"></span>
+            ) : (
+              "Se connecter"
+            )}
           </button>
         </div>
       </form>
