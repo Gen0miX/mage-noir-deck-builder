@@ -8,8 +8,6 @@ import RegisterForm from "./RegisterForm";
 import VerifyEmail from "./VerifyEmail";
 import Toast from "./Toast";
 import { useSearchParams } from "next/navigation";
-import { FaCheck } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
 
 export default function LoginRegisterContainer() {
   const pathname = usePathname();
