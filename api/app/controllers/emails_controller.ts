@@ -53,7 +53,7 @@ export default class EmailsController {
   }
 
   async sendResetPasswordEmail({ request, response }: HttpContext) {
-    const email = request.input('email')
+    const email = request.validateUsing(emailValidator)
     const user = await User.findByOrFail('email', email)
 
     const token = crypto.randomBytes(32).toString('hex')
@@ -68,7 +68,7 @@ export default class EmailsController {
         .to(user.email)
         .from('no-reply@jonas-pilloud.ch')
         .subject('Réinitialisez votre mot de passe')
-        .htmlView('emails/rest_password', { reset_url: resetLink, username: user.fullName })
+        .htmlView('emails/reset_password', { reset_url: resetLink, username: user.fullName })
     })
     return response.ok({ message: 'Password reset email sent!' })
   }

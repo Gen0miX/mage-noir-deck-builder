@@ -13,7 +13,6 @@ export default function VerifyEmail() {
   } | null>(null);
 
   const handleResendEmail = async () => {
-    console.log(email);
     if (email) {
       try {
         await sendVerificationEmail(email);
@@ -22,7 +21,6 @@ export default function VerifyEmail() {
           message: "Email de vérification envoyé !",
         });
       } catch (error) {
-        console.error("Erreur lors de l'envoi de l'email:", error);
         setToast({
           type: "error",
           message: "Impossible d'envoyer un Email de vérification !",

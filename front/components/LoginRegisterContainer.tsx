@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import VerifyEmail from "./VerifyEmail";
+import PasswordForgot from "./PasswordForgot";
 import Toast from "./Toast";
 import { useSearchParams } from "next/navigation";
 
@@ -13,14 +14,30 @@ export default function LoginRegisterContainer() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const isVerified = searchParams.get("verified") === "true";
-  const [showToast, setShowToast] = useState(isVerified);
+  const isReset = searchParams.get("isReset") === "true";
+  const [toast, setToast] = useState<{
+    type: "success";
+    message: string;
+  } | null>(null);
 
   useEffect(() => {
     if (isVerified) {
-      const timer = setTimeout(() => setShowToast(false), 4000);
+      setToast({
+        type: "success",
+        message: "Email vérifié avec succès !",
+      });
+      const timer = setTimeout(() => setToast(null), 4000);
       return () => clearTimeout(timer);
     }
-  }, [isVerified]);
+    if (isReset) {
+      setToast({
+        type: "success",
+        message: "Email de réinitialisation envoyé ! Vérifiez votre boît mail.",
+      });
+      const timer = setTimeout(() => setToast(null), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [isVerified, isReset]);
 
   let form;
   if (pathname === "/login") {
@@ -29,12 +46,12 @@ export default function LoginRegisterContainer() {
     form = <RegisterForm />;
   } else if (pathname === "/register/verify-email") {
     form = <VerifyEmail />;
+  } else if (pathname === "/register/pwd-forgot") {
+    form = <PasswordForgot />;
   }
   return (
     <section className="h-full flex justify-center items-center font-p">
-      {showToast && (
-        <Toast type="success">Votre Email a été validé avec succès !</Toast>
-      )}
+      {toast && <Toast type={toast.type}>{toast.message}</Toast>}
       {form}
       <Image
         alt="Background image"
