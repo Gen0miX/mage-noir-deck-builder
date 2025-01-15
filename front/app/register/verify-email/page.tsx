@@ -6,7 +6,7 @@ const VerifyEmail: React.FC = () => {
     <Suspense
       fallback={<span className="loading loading-dots loading-md"></span>}
     >
-      <LoginRegisterContainer></LoginRegisterContainer>;
+      <LoginRegisterContainer></LoginRegisterContainer>
     </Suspense>
   );
 };

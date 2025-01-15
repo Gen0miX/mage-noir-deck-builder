@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useState } from "react";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { FaUser, FaKey, FaEnvelope } from "react-icons/fa6";
 import { register } from "@/api/authApi";
@@ -26,6 +27,30 @@ export default function RegisterForm() {
       await register({ email, password, username });
       router.push("/register/verify-email?email=" + email);
     } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.data?.errors) {
+        const errors = err.response.data.errors;
+        if (Array.isArray(errors)) {
+          for (const error of errors) {
+            if (error.rule === "database.unique") {
+              if (error.field === "email") {
+                setError("Cet email est déjà utilisé.");
+                return;
+              } else if (error.field === "username") {
+                setError("Ce nom d'utilisateur est déjà utilisé.");
+                return;
+              } else {
+                setError("Erreur inconnue");
+                return;
+              }
+            } else {
+              setError("Erreur inconnue");
+            }
+          }
+        } else {
+          setError("Erreur inconnue");
+        }
+      }
+
       setError("Failed to register");
     } finally {
       setIsLoading(false);
