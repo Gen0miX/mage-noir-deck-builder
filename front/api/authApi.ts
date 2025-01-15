@@ -6,6 +6,7 @@ export const register = async (userData: {
   username: string;
 }) => {
   const response = await apiClient.post("/register", userData);
+  console.log(response);
   return response.data;
 };
 

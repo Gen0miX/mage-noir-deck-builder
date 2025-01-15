@@ -7,17 +7,14 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import VerifyEmail from "./VerifyEmail";
 import Toast from "./Toast";
+import { useSearchParams } from "next/navigation";
 import { FaCheck } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface LoginRegisterContainerProps {
-  isVerified?: boolean;
-}
-
-export default function LoginRegisterContainer({
-  isVerified,
-}: LoginRegisterContainerProps) {
+export default function LoginRegisterContainer() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const isVerified = searchParams.get("verified") === "true";
   const [showToast, setShowToast] = useState(isVerified);
 
   useEffect(() => {

@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { FaUser, FaKey } from "react-icons/fa6";
 import { login } from "@/api/authApi";
 import { useAuth } from "@/context/AuthContext";
-import Loading from "@/components/Loading";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");

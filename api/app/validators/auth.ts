@@ -13,7 +13,14 @@ export const registerValidator = vine.compile(
         return !match
       }),
     password,
-    username: vine.string().minLength(3),
+    username: vine
+      .string()
+      .minLength(3)
+      .maxLength(16)
+      .unique(async (db, value) => {
+        const match = await db.from('users').select('id').where('full_name', value).first()
+        return !match
+      }),
   })
 )
 

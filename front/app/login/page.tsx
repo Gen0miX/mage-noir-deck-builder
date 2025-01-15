@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import LoginRegisterContainer from "@/components/LoginRegisterContainer";
@@ -18,7 +18,11 @@ const Login: React.FC = () => {
   }, [user, router]);
 
   return (
-    <LoginRegisterContainer isVerified={isVerified}></LoginRegisterContainer>
+    <Suspense
+      fallback={<span className="loading loading-dots loading-md"></span>}
+    >
+      <LoginRegisterContainer></LoginRegisterContainer>
+    </Suspense>
   );
 };
 
