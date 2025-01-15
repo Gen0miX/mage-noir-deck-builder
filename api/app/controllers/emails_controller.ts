@@ -53,15 +53,15 @@ export default class EmailsController {
   }
 
   async sendResetPasswordEmail({ request, response }: HttpContext) {
-    const email = request.validateUsing(emailValidator)
-    const user = await User.findByOrFail('email', email)
+    const data = await request.validateUsing(emailValidator)
+    const user = await User.findByOrFail('email', data.email)
 
     const token = crypto.randomBytes(32).toString('hex')
     user.passwordResetToken = token
     user.tokenCreatedAt = DateTime.now()
     await user.save()
 
-    const resetLink = 'http://localhost:3000/reset-password/' + token.toString()
+    const resetLink = 'http://localhost:3000/register/reset-password/' + token.toString()
 
     await mail.send((message) => {
       message

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Link from "next/link";
 import { FaUser } from "react-icons/fa";
 import { sendResetPasswordEmail } from "@/api/authApi";
 import { useRouter } from "next/navigation";
@@ -17,7 +18,6 @@ export default function PasswordForgot() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      console.log(email);
       await sendResetPasswordEmail(email);
       router.push("/login?isReset=true");
     } catch (error) {
@@ -50,10 +50,13 @@ export default function PasswordForgot() {
             required
           />
         </label>
-        <div className="flex">
+        <div className="flex justify-end mt-5 mb-10 gap-5 ">
+          <Link href="/login" className=" btn btn-secondary text-base-content">
+            Annuler
+          </Link>
           <button
             type="submit"
-            className="grow btn btn-primary flex text-base-content mt-5 mb-10"
+            className=" btn btn-primary  text-base-content "
           >
             {isLoading ? (
               <span className="loading loading-spinner loading-md"></span>

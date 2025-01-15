@@ -67,7 +67,10 @@ export default function LoginForm() {
             required
           />
         </label>
-        <Link href={"/pwd-forgot"} className="link link-primary self-end">
+        <Link
+          href={"/register/pwd-forgot"}
+          className="link link-primary self-end"
+        >
           Mot de passe oublié ?
         </Link>
         <div className="flex">
