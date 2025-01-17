@@ -61,7 +61,7 @@ export default class EmailsController {
     user.tokenCreatedAt = DateTime.now()
     await user.save()
 
-    const resetLink = 'http://localhost:3000/register/reset-password/' + token.toString()
+    const resetLink = 'http://localhost:3000/register/pwd-forgot/' + token.toString()
 
     await mail.send((message) => {
       message
