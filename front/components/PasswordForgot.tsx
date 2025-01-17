@@ -19,7 +19,7 @@ export default function PasswordForgot() {
     setIsLoading(true);
     try {
       await sendResetPasswordEmail(email);
-      router.push("/login?isReset=true");
+      router.push("/login?isResetSent=true");
     } catch (error) {
       setToast({
         type: "error",
@@ -50,13 +50,16 @@ export default function PasswordForgot() {
             required
           />
         </label>
-        <div className="flex justify-end mt-5 mb-10 gap-5 ">
-          <Link href="/login" className=" btn btn-secondary text-base-content">
+        <div className="flex justify-center mt-5 mb-10 gap-5">
+          <Link
+            href="/login"
+            className="min-w-32 btn btn-secondary text-base-content"
+          >
             Annuler
           </Link>
           <button
             type="submit"
-            className=" btn btn-primary  text-base-content "
+            className=" btn btn-primary  text-base-content min-w-32"
           >
             {isLoading ? (
               <span className="loading loading-spinner loading-md"></span>

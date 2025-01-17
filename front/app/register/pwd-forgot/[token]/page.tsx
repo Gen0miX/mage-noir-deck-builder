@@ -1,7 +1,9 @@
+"use client";
+
 import { Suspense } from "react";
 import LoginRegisterContainer from "@/components/LoginRegisterContainer";
 
-const SendVerifyEmailPage: React.FC = () => {
+const PasswordForgotPage: React.FC = () => {
   return (
     <Suspense
       fallback={<span className="loading loading-dots loading-md"></span>}
@@ -11,4 +13,4 @@ const SendVerifyEmailPage: React.FC = () => {
   );
 };
 
-export default SendVerifyEmailPage;
+export default PasswordForgotPage;

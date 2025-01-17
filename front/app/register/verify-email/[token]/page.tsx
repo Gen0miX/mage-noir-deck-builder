@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { verifyEmail } from "@/api/authApi";
 import Loading from "@/components/Loading";
-import { div } from "framer-motion/client";
 
 const VerifyEmailPage: React.FC = () => {
   const router = useRouter();

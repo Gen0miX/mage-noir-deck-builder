@@ -1,7 +1,7 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
 
-const Profile: React.FC = () => {
+const ProfilePage: React.FC = () => {
   const { user, logout } = useAuth();
   return (
     <button
@@ -13,4 +13,4 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+export default ProfilePage;

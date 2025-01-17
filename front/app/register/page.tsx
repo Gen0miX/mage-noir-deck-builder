@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import LoginRegisterContainer from "@/components/LoginRegisterContainer";
 
-const Register: React.FC = () => {
+const RegisterPage: React.FC = () => {
   const { user } = useAuth();
   const router = useRouter();
 
@@ -23,4 +23,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default RegisterPage;

@@ -2,23 +2,26 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import bg from "@/public/rituel_du_vide_wallpaper.png";
-import { usePathname } from "next/navigation";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import VerifyEmail from "./VerifyEmail";
 import PasswordForgot from "./PasswordForgot";
+import PasswordReset from "./PasswordReset";
 import Toast from "./Toast";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname, useParams } from "next/navigation";
 
 export default function LoginRegisterContainer() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const params = useParams();
   const isVerified = searchParams.get("verified") === "true";
-  const isReset = searchParams.get("isReset") === "true";
+  const isResetSent = searchParams.get("isResetSent") === "true";
   const [toast, setToast] = useState<{
     type: "success";
     message: string;
   } | null>(null);
+
+  console.log("token:" + params.token);
 
   useEffect(() => {
     if (isVerified) {
@@ -29,15 +32,16 @@ export default function LoginRegisterContainer() {
       const timer = setTimeout(() => setToast(null), 4000);
       return () => clearTimeout(timer);
     }
-    if (isReset) {
+    if (isResetSent) {
       setToast({
         type: "success",
-        message: "Email de réinitialisation envoyé ! Vérifiez votre boît mail.",
+        message:
+          "Email de réinitialisation envoyé ! Vérifiez votre boîte mail.",
       });
       const timer = setTimeout(() => setToast(null), 4000);
       return () => clearTimeout(timer);
     }
-  }, [isVerified, isReset]);
+  }, [isVerified, isResetSent]);
 
   let form;
   if (pathname === "/login") {
@@ -48,6 +52,8 @@ export default function LoginRegisterContainer() {
     form = <VerifyEmail />;
   } else if (pathname === "/register/pwd-forgot") {
     form = <PasswordForgot />;
+  } else if (pathname.includes("/register/pwd-forgot") && params.token) {
+    form = <PasswordReset />;
   }
   return (
     <section className="h-full flex justify-center items-center font-p">
