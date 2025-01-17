@@ -73,8 +73,9 @@ export default class EmailsController {
     return response.ok({ message: 'Password reset email sent!' })
   }
 
-  async resetPassword({ request, response }: HttpContext) {
-    const { token, newPassword } = request.all()
+  async resetPassword({ params, request, response }: HttpContext) {
+    const { token } = params.token
+    const { newPassword } = request.all()
     const user = await User.findByOrFail('password_reset_token', token)
 
     if (user.tokenCreatedAt) {

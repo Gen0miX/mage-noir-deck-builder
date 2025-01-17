@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { resetPassword } from "@/api/authApi";
 import { FaKey } from "react-icons/fa";
+import { useRouter, useParams } from "next/navigation";
 
 export default function PasswordReset() {
+  const router = useRouter();
+  const { token } = useParams();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,7 +21,14 @@ export default function PasswordReset() {
     setIsLoading(true);
 
     try {
+      if (typeof token === "string") {
+        await resetPassword({ token, password });
+        router.push("/login?reset=true");
+      } else {
+        setError("Token invalide !");
+      }
     } catch (e) {
+      console.error("Password reset failed:", e);
     } finally {
       setIsLoading(false);
     }
