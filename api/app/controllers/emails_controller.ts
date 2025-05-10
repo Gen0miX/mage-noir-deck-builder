@@ -61,7 +61,7 @@ export default class EmailsController {
     user.tokenCreatedAt = DateTime.now()
     await user.save()
 
-    const resetLink = 'http://localhost:3000/register/reset-password/' + token.toString()
+    const resetLink = 'http://localhost:3000/register/pwd-forgot/' + token.toString()
 
     await mail.send((message) => {
       message
@@ -73,8 +73,9 @@ export default class EmailsController {
     return response.ok({ message: 'Password reset email sent!' })
   }
 
-  async resetPassword({ request, response }: HttpContext) {
-    const { token, newPassword } = request.all()
+  async resetPassword({ params, request, response }: HttpContext) {
+    const token = params.token
+    const { newPassword } = request.all()
     const user = await User.findByOrFail('password_reset_token', token)
 
     if (user.tokenCreatedAt) {
