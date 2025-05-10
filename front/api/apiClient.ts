@@ -1,9 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL:
-    process.env.NEXT_PUBLIC_API_URL ||
-    "https://mage-noir-deck-builder.onrender.com",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333",
   timeout: 1000000,
 });
 

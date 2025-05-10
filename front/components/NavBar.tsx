@@ -45,8 +45,10 @@ export default function NavBar() {
           <div className="navbar-start">
             <div className="gap-2 hidden md:flex">
               <Link
-                href=""
-                className="btn btn-sm btn-ghost text-base-content text-lg font-light hover:bg-secondary"
+                href="/builder"
+                className={`btn btn-sm text-base-content text-lg font-light hover:bg-secondary ${
+                  pathname === "/builder" ? "btn-secondary" : "btn-ghost"
+                } `}
               >
                 Deck Builder
               </Link>
