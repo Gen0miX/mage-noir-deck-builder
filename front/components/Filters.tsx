@@ -188,7 +188,6 @@ export default function Filter() {
           ))}
         </div>
       </div>
-      <FilterModal id="filter_modal"></FilterModal>
     </div>
   );
 }

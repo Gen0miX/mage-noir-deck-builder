@@ -2,7 +2,7 @@ import { FaSearch } from "react-icons/fa";
 import { PiCardsBold } from "react-icons/pi";
 
 type DeckBuilderNavProps = {
-  activeView: "cards" | "deck";
+  activeView: "cards" | "deck" | "card";
   setActiveView: (view: "cards" | "deck") => void;
 };
 
