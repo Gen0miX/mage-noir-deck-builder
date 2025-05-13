@@ -127,7 +127,12 @@ export default function NavBar() {
           </button>
           <ul className="menu min-h-full w-60 p-4">
             <li>
-              <Link href="" className="hover:bg-secondary">
+              <Link
+                href="/builder"
+                className={`hover:bg-secondary ${
+                  pathname === "/builder" ? "bg-secondary" : "bg-transparent"
+                }`}
+              >
                 Deck Builder
               </Link>
             </li>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import bg from "@/public/rituel_du_vide_wallpaper.png";
 import { useAuth } from "@/context/AuthContext";
 import { FaExclamationCircle } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Home() {
   const { user } = useAuth();
@@ -39,9 +40,12 @@ export default function Home() {
             <button className="btn btn-secondary w-24 text-base-content text-lg shadow-md">
               Chercher
             </button>
-            <button className="btn btn-primary w-24 text-base-content text-lg shadow-md ">
+            <Link
+              href="/builder"
+              className="btn btn-primary w-24 text-base-content text-lg shadow-md "
+            >
               Créer
-            </button>
+            </Link>
           </div>
         </div>
       </div>

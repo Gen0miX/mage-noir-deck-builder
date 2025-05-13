@@ -8,7 +8,6 @@ import Loading from "@/components/Loading";
 import DeckBuilderNav from "@/components/DeckBuilderNav";
 import FilterModal from "@/components/FilterModal";
 import CardInfo from "@/components/CardInfo";
-import Toast from "@/components/Toast";
 
 export default function DeckBuilderPage() {
   const { cards, loading } = useCards();
@@ -64,10 +63,7 @@ export default function DeckBuilderPage() {
   }, {} as Record<string, number>);
 
   return (
-    <div className="h-full flex flex-col">
-      {activeView === "card" && cardInfoCard && (
-        <CardInfo card={cardInfoCard} onClickClose={closeCardInfo} />
-      )}
+    <div className="h-full max-w-full flex flex-col">
       <div className="flex-1 overflow-hidden md:hidden">
         {activeView === "cards" && (
           <CardsGrid
@@ -82,22 +78,38 @@ export default function DeckBuilderPage() {
             gridClassName="grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
           />
         )}
-        {activeView === "deck" && <DeckCreator deck={deck} />}
+        {activeView === "deck" && (
+          <DeckCreator
+            deck={deck}
+            onAddCard={(card) => addToDeck(card)}
+            onRemoveCard={(card) => removeFromDeck(card)}
+          />
+        )}
       </div>
-      <div className="flex-1 overflow-hidden hidden md:flex">
-        <CardsGrid
-          cards={cards}
-          showFilters={true}
-          showInspectButton={true}
-          onCardClick={(card) => addToDeck(card)}
-          onAddCard={(card) => addToDeck(card)}
-          onRemoveCard={(card) => removeFromDeck(card)}
-          cardCounts={cardCounts}
-          gridClassName="grid-cols-2 sm:grid-cols-3 md:!grid-cols-2 lg:!grid-cols-3 xl:!grid-cols-4 2xl:!grid-cols-5"
-          containerClassName="md:w-1/2 xl:w-2/3"
-        />
-        <DeckCreator deck={deck} />
-      </div>
+      {(activeView === "cards" || activeView === "deck") && (
+        <div className="flex-1 overflow-hidden hidden md:flex">
+          <CardsGrid
+            cards={cards}
+            showFilters={true}
+            showInspectButton={true}
+            onInspectButtonClick={(card) => openCardInfo(card)}
+            onCardClick={(card) => addToDeck(card)}
+            onAddCard={(card) => addToDeck(card)}
+            onRemoveCard={(card) => removeFromDeck(card)}
+            cardCounts={cardCounts}
+            gridClassName="md:!grid-cols-2 lg:!grid-cols-3 xl:!grid-cols-4"
+            containerClassName="md:w-1/2 xl:w-3/5"
+          />
+          <DeckCreator
+            deck={deck}
+            onAddCard={(card) => addToDeck(card)}
+            onRemoveCard={(card) => removeFromDeck(card)}
+          />
+        </div>
+      )}
+      {activeView === "card" && cardInfoCard && (
+        <CardInfo card={cardInfoCard} onClickClose={closeCardInfo} />
+      )}
       <DeckBuilderNav activeView={activeView} setActiveView={setActiveView} />
       <FilterModal id="filter_modal"></FilterModal>
     </div>

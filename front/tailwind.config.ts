@@ -11,12 +11,12 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        vegetal: "#61c02c",
-        eau: "#388ecc",
-        feu: "#cc2f24",
-        mineral: "#9c8f78",
-        air: "#c4d6f0",
-        arcane: "#9a459f",
+        vegetal: "#5d9c42",
+        eau: "#3a92d2",
+        feu: "#d12c24",
+        mineral: "#9a8f75",
+        air: "#c4d5eb",
+        arcane: "#9a4d9e",
       },
       fontFamily: {
         p: ["var(--font-montserrat)"],
