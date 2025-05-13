@@ -21,6 +21,15 @@ const DeckCardsBanner: React.FC<DeckCardsBannerProps> = ({
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [adjustedPos, setAdjustedPos] = useState({ top: 0, left: 0 });
 
+  const borderColorMap: Record<string, string> = {
+    Végétal: "border-vegetal",
+    Eau: "border-eau",
+    Feu: "border-feu",
+    Minéral: "border-mineral",
+    Air: "border-air",
+    Arcane: "border-arcane",
+  };
+
   useEffect(() => {
     const imageHeight = 336;
     const imageWidth = 240;
@@ -50,10 +59,9 @@ const DeckCardsBanner: React.FC<DeckCardsBannerProps> = ({
   return (
     <>
       <div
-        className={`bg-primary-content border-${card.element.name
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .toLowerCase()} border-2 border-opacity-70 p-1 m-1 mx-2 rounded-xl`}
+        className={`bg-primary-content ${
+          borderColorMap[card.element.name] || "border-base-content"
+        } border-2 border-opacity-70 p-1 m-1 mx-2 rounded-xl`}
       >
         <div className="flex justify-between items-center">
           <div className="flex items-center">
@@ -95,10 +103,9 @@ const DeckCardsBanner: React.FC<DeckCardsBannerProps> = ({
           alt={card.name}
           width={200}
           height={300}
-          className={`pointer-events-none fixed z-50 w-60 h-auto border-2 border-${card.element.name
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .toLowerCase()} rounded-lg border-opacity-60 shadow-lg`}
+          className={`pointer-events-none fixed z-50 w-60 h-auto border-2 ${
+            borderColorMap[card.element.name] || "border-base-content"
+          } rounded-lg border-opacity-60 shadow-lg`}
           style={{
             top: adjustedPos.top,
             left: adjustedPos.left,
