@@ -17,6 +17,8 @@ export interface CardsContextType {
   getCardById: (id: number) => Promise<Card | undefined>;
   activeFilters: string[];
   toggleFilter: (filter: string) => void;
+  searchQuery: string;
+  setSearchQuery: (searchQuery: string) => void;
   components: Component[];
   elements: Element[];
   types: Type[];
@@ -78,6 +80,7 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const [loading, setLoading] = useState(true);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchFilters = async () => {
     try {
@@ -207,6 +210,8 @@ export const CardsProvider: React.FC<{ children: React.ReactNode }> = ({
         getCardById,
         activeFilters,
         toggleFilter,
+        searchQuery,
+        setSearchQuery,
         components,
         elements,
         types,

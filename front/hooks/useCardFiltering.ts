@@ -5,6 +5,7 @@ import { useMemo } from "react";
 export function useCardFiltering(initialCards: Card[]) {
   const {
     activeFilters,
+    searchQuery,
     manaCostSliders,
     hpSlider,
     sortBy,
@@ -81,6 +82,17 @@ export function useCardFiltering(initialCards: Card[]) {
       );
     }
 
+    if (searchQuery.trim() !== "") {
+      filtered = filtered.filter((card) => {
+        const search = searchQuery.toLowerCase();
+        const nameMatch = card.name.toLowerCase().includes(search);
+        const descriptionMatch = card.description
+          ?.toLowerCase()
+          .includes(search);
+        return nameMatch || descriptionMatch;
+      });
+    }
+
     filtered = [...filtered].sort((a, b) => {
       let comparison = 0;
       switch (sortBy) {
@@ -108,6 +120,7 @@ export function useCardFiltering(initialCards: Card[]) {
   }, [
     initialCards,
     activeFilters,
+    searchQuery,
     manaCostSliders,
     hpSlider,
     sortBy,

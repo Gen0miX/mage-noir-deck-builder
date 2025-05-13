@@ -1,5 +1,7 @@
 import React, { useMemo } from "react";
 import { Card } from "@/context/types/Card";
+import Image from "next/image";
+import deckIcon from "@/public/deck_icon.png";
 import ElementIcon from "@/components/ElementIcon";
 import DeckCardsBanner from "@/components/DeckCardsBanner";
 
@@ -33,6 +35,8 @@ const DeckCreator: React.FC<DeckCreatorProps> = ({
     return acc;
   }, {} as Record<number, number>);
 
+  const totalCards = deck.length;
+
   const ELEMENT_IDS = [1, 2, 3, 4, 5, 6];
 
   return (
@@ -43,11 +47,24 @@ const DeckCreator: React.FC<DeckCreatorProps> = ({
           {ELEMENT_IDS.map((elementId) => (
             <div key={elementId} className="relative flex items-center">
               <ElementIcon id={elementId} className="w-8 h-8" />
-              <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {elementCounts[elementId] || 0}
               </span>
             </div>
           ))}
+          <div className="relative flex items-center">
+            <Image
+              src={deckIcon}
+              width={250}
+              height={250}
+              quality={100}
+              alt="Deck icon"
+              className="w-8 h-8"
+            />
+            <span className="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center opacity-80">
+              {totalCards}
+            </span>
+          </div>
         </div>
       </div>
       <div className="flex flex-col">

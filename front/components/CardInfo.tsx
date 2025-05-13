@@ -10,6 +10,19 @@ type CardInfoProps = {
   onClickClose: () => void;
 };
 
+type Props = {
+  htmlContent: string;
+};
+
+const EffetCard: React.FC<Props> = ({ htmlContent }) => {
+  return (
+    <div
+      className="leading-relaxed"
+      dangerouslySetInnerHTML={{ __html: htmlContent }}
+    />
+  );
+};
+
 const CardInfo: React.FC<CardInfoProps> = ({ card, onClickClose }) => {
   return (
     <div className="flex justify-center w-full sm:h-full">
@@ -45,28 +58,18 @@ const CardInfo: React.FC<CardInfoProps> = ({ card, onClickClose }) => {
             </p>
           </div>
 
-          <p className="text-lg font-light mt-2 text-justify">
-            {card.description
-              //A CHANGER AU SCRAPING POUR MEILLEURE RESULTAT !!!!
-              // Ajoute un espace avant chaque parenthèse ouvrante
-              .replace(/(\S)\(/g, "$1 (") // Ajoute un espace si un caractère précède une parenthèse ouvrante
-              // Split uniquement sur les points qui ne sont pas suivis d'une parenthèse fermante
-              .split(/(?<!\))\.(?!\))/)
-              .filter((sentence) => sentence.trim() !== "") // Enlever les phrases vides
-              .map((sentence, index) => (
-                <React.Fragment key={index}>
-                  {sentence.trim()}.
-                  <br />
-                </React.Fragment>
-              ))}
-          </p>
+          <p
+            className="text-lg font-light mt-2 text-justify"
+            dangerouslySetInnerHTML={{ __html: card.description }}
+          ></p>
 
           <div className="divider"></div>
 
           <div className="flex flex-col sm:flex-row justify-between ">
             <div className="flex flex-col gap-5 mb-5">
               <p className="text-sm">
-                <strong>Point de vie : </strong> {card.hp}
+                <strong>Point de vie : </strong>{" "}
+                {card.hp === 999 ? "X" : card.hp}
               </p>
 
               <p className="text-sm">
@@ -79,13 +82,22 @@ const CardInfo: React.FC<CardInfoProps> = ({ card, onClickClose }) => {
                 <ul className="">
                   {card.mana_cost.map((mana) => (
                     <li key={mana.id} className="flex gap-2 mb-1">
-                      {Array.from({ length: mana.quantity }).map((_, index) => (
-                        <ElementIcon
-                          key={`${mana.id}-${index}`}
-                          id={mana.id}
-                          className="w-6"
-                        />
-                      ))}
+                      {mana.quantity === 999 ? (
+                        <>
+                          X <ElementIcon id={mana.id} className="w-6" />
+                        </>
+                      ) : (
+                        Array.from({ length: mana.quantity }).map(
+                          (_, index) => (
+                            <ElementIcon
+                              key={`${mana.id}-${index}`}
+                              id={mana.id}
+                              className="w-6"
+                            />
+                          )
+                        )
+                      )}
+                      {}
                     </li>
                   ))}
                 </ul>

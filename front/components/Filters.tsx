@@ -13,26 +13,19 @@ export default function Filter() {
   const {
     activeFilters,
     toggleFilter,
+    searchQuery,
+    setSearchQuery,
     elements,
     setSortBy,
     sortBy,
     sortOrders,
     toggleSortOrder,
   } = useCards();
-  const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value.toLowerCase());
-  };
-
-  const filteredElements = elements.filter((element) =>
-    element.name.toLowerCase().includes(searchQuery)
-  );
 
   const handleSort = (
     key: "name" | "element" | "type" | "hp" | "extension"
@@ -48,7 +41,13 @@ export default function Filter() {
     <div className="sticky top-0 flex flex-col w-full p-3 z-50 bg-base-200 border-b border-b-base-content border-opacity-40 gap-2 font-p">
       <div className="flex w-full gap-2">
         <label className="input input-bordered input-sm flex items-center gap-2 bg-base-200 w-full lg:input-md">
-          <input type="text" className="grow" placeholder="Rechercher..." />
+          <input
+            type="text"
+            className="grow"
+            placeholder="Rechercher..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
+          />
           <LuSearch />
         </label>
         <button
@@ -173,7 +172,7 @@ export default function Filter() {
           )}
         </div>
         <div className="jusify-end">
-          {filteredElements.map((element) => (
+          {elements.map((element) => (
             <button
               key={element.id}
               className={`btn p-1 ${
